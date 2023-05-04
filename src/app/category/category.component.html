@@ -1,0 +1,40 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+    <form>
+        <div class="input-field">
+            <input id="nombre_categoria" type="text" class="validate" [(ngModel)]="nombre_categoria" name="nombre_categoria">
+            <label for="nombre_categoria">Categoría</label>
+        </div>
+<!--         <label>
+            <input type="checkbox" class="checked" id="registro" [checked]="categoryActiva"/>
+            <span>Activo</span>
+        </label> -->
+        <br>
+        <input type="submit" value="Guardar" class="waves-effect waves-light btn-small" (click)="guardarCategoria()">
+    </form>
+    <br>
+
+    <table class="highlight responsive-table">
+        <thead>
+          <tr>
+              <th>Nombre</th>
+              <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr *ngFor="let category of listaCategorias">
+            <td>{{category.category_name}}</td>
+            <td>
+                <input type="button" value="Editar" class="waves-effect waves-light btn-small">
+                <span> - </span>
+                <input type="button" value="Eliminar" class="waves-effect waves-light btn-small">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+ 
+<app-subcategory></app-subcategory>
+
+</div>
+
+video 20
