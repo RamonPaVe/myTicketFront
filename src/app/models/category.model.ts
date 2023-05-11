@@ -1,11 +1,9 @@
 export class Category{
 
-    category_name:string="";
+    categoryName:string="";
 
     constructor(category_name:string){
-        this.category_name = category_name;
+        this.categoryName = category_name;
     }
-
-
 
 }

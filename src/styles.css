@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+nav{
+    top:0px;
+    position:fixed;
+    z-index: 10;
+}
+form{
+    padding-top: 10px !important;
+}
+.container{
+    padding-top: 40px;;
+}
+
+.option_buttons{
+    margin-right: 180px;
+    margin-top: 10px;
+    float: right;
+}
+.btn{
+    margin:5px;
+    z-index: 11 !important;
+}
+
+.idTicket{
+    position: relative;
+    z-index: 11;
+    padding-right: 250px;
+}
+/* quitar espacio en blanco entre row's */
+.row{
+    margin-bottom: 0 !important;
+}
+.input-field {
+    margin-bottom: 0 !important;
+}

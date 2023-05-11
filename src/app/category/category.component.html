@@ -10,7 +10,7 @@
             <span>Activo</span>
         </label> -->
         <br>
-        <input type="submit" value="Guardar" class="waves-effect waves-light btn-small" (click)="guardarCategoria()">
+        <input type="submit" value="Nueva" class="waves-effect waves-light btn-small" (click)="newCategory()">
     </form>
     <br>
 
@@ -26,8 +26,8 @@
             <td>{{category.category_name}}</td>
             <td>
                 <input type="button" value="Editar" class="waves-effect waves-light btn-small">
-                <span> - </span>
-                <input type="button" value="Eliminar" class="waves-effect waves-light btn-small">
+                <span> -{{category.id}} </span>
+                <input type="button" value="Eliminar" class="waves-effect waves-light btn-small" (click)="deleteCategory(category.id)">
             </td>
           </tr>
         </tbody>

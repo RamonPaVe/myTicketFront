@@ -1,0 +1,206 @@
+<div class="row">
+  <div class="option_buttons">
+    <a class="idTicket btn disabled">Solicitud: 125874</a>
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn green">
+        <i class="large material-icons">add</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating btn green" href="/ticket" value="rutina"><i class="material-icons">loop</i></a></li>
+        <li><a class="btn-floating btn red" href="/ticket" value="incidencia"><i class="material-icons">new_releases</i></a></li>
+        <li><a class="btn-floating btn blue" href="/ticket" value="solicitud"><i class="material-icons">info_outline</i></a></li>
+      </ul>
+    </div>
+    <!-- <a class="btn-floating btn-small btn waves-effect waves-light"><i class="material-icons">add</i></a> -->
+    <a class="waves-effect waves-light btn"><i class="material-icons right">save</i>Guardar</a>
+    <a class="waves-effect waves-light btn"><i class="material-icons right">speaker_notes</i>Añadir notas</a>
+    <a class="waves-effect waves-light btn"><i class="material-icons right">edit</i>Editar</a>
+    <a class="waves-effect waves-light btn amber darken-4"><i class="material-icons right">content_copy</i>Copiar</a>
+    <a class="waves-effect waves-light btn amber darken-4"><i class="material-icons right">join_full</i>Combinar</a>
+    <a class="waves-effect waves-light btn red"><i class="material-icons right">cancel</i>Cancelar</a>
+    
+  </div>
+    <form class="col s12">
+      <fieldset>
+        <legend>Detalles del solicitante:</legend>
+        <div class="row">
+          <div class="input-field col s2">
+            <input id="first_name" type="text" class="validate">
+            <label for="first_name">Nombre</label>
+          </div>
+          <div class="input-field col s3">
+            <input id="last_name" type="text" class="validate">
+            <label for="last_name">Apellidos</label>
+          </div>
+          <div class="input-field col s2">
+            <input id="phone_number" type="text" class="validate">
+            <label for="phone_number">Teléfono de contacto</label>
+          </div>
+          <div class="input-field col s2">
+            <input id="email" type="email" class="validate">
+            <label for="email">e-mail</label>
+          </div>
+          <div class="input-field col s3">
+            <select>
+              <option value="" disabled selected>Elige una opción</option>
+              <option value="1">Option 1</option>
+              <option value="2">Option 2</option>
+              <option value="3">Option 3</option>
+            </select>
+            <label>Centro</label>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Detalles del servicio:</legend>
+        <div class="row">
+          <div class="input-field col s1">
+            <select>
+              <option value="" disabled selected>Elige una opción</option>
+              <option value="1">Option 1</option>
+              <option value="2">Option 2</option>
+              <option value="3">Option 3</option>
+            </select>
+            <label>Categoria de servicio</label>
+        </div>
+        <div class="input-field col s1">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Nivel</label>
+        </div>
+        <div class="input-field col s1">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Prioridad</label>
+        </div>
+        <div class="input-field col s2">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Grupo</label>
+        </div>
+        <div class="input-field col s2">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Tecnico asignado</label>
+        </div>
+        <div class="input-field col s1">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Categoria</label>
+        </div>
+        <div class="input-field col s1">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Subcategoria</label>
+        </div>
+        <div class="input-field col s2">
+          <select>
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Proveedor</label>
+        </div>
+        <div class="input-field col s1">
+          <input id="externalTicket" type="text" class="validate">
+          <label for="externalTicket">Ticket Externo</label>
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        
+
+
+      </div>
+
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="summary" type="text" class="validate">
+          <label for="sumary">Resumen</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="description" class="materialize-textarea"></textarea>
+            <label for="description">Descripción</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="resolution" class="materialize-textarea"></textarea>
+            <label for="resolution">Resolución</label>
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col s2">
+          Fecha de creación:
+          <div class="input-field inline">
+            <input disabled id="creationDate" type="date" class="validate">
+          </div>
+        </div>
+        <div class="col s2">
+          Fecha modificación:
+          <div class="input-field inline">
+            <input disabled id="modificationDate" type="date" class="validate">
+          </div>
+        </div>
+        <div class="col s2">
+          Fecha de resolución:
+          <div class="input-field inline">
+            <input disabled id="resolutionDate" type="date" class="validate">
+          </div>
+        </div>
+        <div class="col s2">
+          Fecha de cierre:
+          <div class="input-field inline">
+            <input disabled id="closeDate" type="date" class="validate">
+          </div>
+        </div>
+        <div class="col s4">
+          Abierto por:
+          <div class="input-field inline">
+            <input disabled id="creatorUser" type="text" class="validate">
+          </div>
+        </div>
+      </div>
+      </fieldset>
+      <fieldset>
+        <legend>Notas:</legend>
+
+      </fieldset>
+    </form>
+    
+  </div>
