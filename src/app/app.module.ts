@@ -10,6 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { TicketComponent } from './ticket/ticket.component';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { CategoriaFormComponent } from './category-form/category-form.component';
+
 const appRoutes: Routes = [
   {path:"", component: AppComponent},
   {path:"category", component: CategoryComponent,},
@@ -19,14 +22,19 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, CategoryComponent, SubcategoryComponent, TicketComponent
+    AppComponent, 
+    CategoryComponent, 
+    SubcategoryComponent, 
+    TicketComponent, 
+    CategoriaFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

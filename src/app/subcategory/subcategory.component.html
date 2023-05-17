@@ -1,1 +1,29 @@
 
+<div class="container">
+    <br>
+    <h3 class="center">{{titulo}}</h3>
+        
+    <div class="input-field col s2" >
+        <select class="browser-default" [(ngModel)]="selectedCategory" name="selectedCategory" (change)="getCategory(selectedCategory)" >
+            <option value="-1" disabled selected>Elige una categoria para crear/editar subcategorias</option>
+            <option *ngFor="let category of listCategories" [value]="category.id">{{category.id}}-{{category.category_name}}</option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <label for="subcategoryName">Nombre de la subcategoría:</label>
+        <input type="text" id="subcategoryName" [(ngModel)]="nuevaSubcategoria.subcategory_name" [disabled]="enableSubcategoryInput">
+        <button class="btn" (click)="addSubcategory()" onclick="M.toast({html: 'Guardando subcategoria', classes: 'rounded'})">Agregar Subcategoría</button>
+    </div>
+    <br>
+    <div *ngIf="nuevaCategoria.subcategory.length > 0">
+        <h3>Subcategorías:</h3>
+            <div class="form-group row" *ngFor="let subcategoria of nuevaCategoria.subcategory;let i=index;"> 
+                <input class="col s6" type="text" id="subcategoryName_{{i}}" [(ngModel)]="subcategoria.subcategory_name" name="subcategoria.subcategory_name">
+                <button class="btn col s1" (click)="updateSubcategory(subcategoria.id, subcategoria.subcategory_name)" 
+                    onclick="M.toast({html: 'Subcategoria actualizada', classes: 'rounded'})" >Editar</button>
+                <button class="btn col s1" (click)="deleteSubcategory(subcategoria.id)" 
+                    onclick="M.toast({html: 'Subcategoria eliminada', classes: 'rounded'})">Eliminar</button>
+            </div>
+    </div>
+</div>  

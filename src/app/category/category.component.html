@@ -5,36 +5,65 @@
             <input id="nombre_categoria" type="text" class="validate" [(ngModel)]="nombre_categoria" name="nombre_categoria">
             <label for="nombre_categoria">Categoría</label>
         </div>
-<!--         <label>
-            <input type="checkbox" class="checked" id="registro" [checked]="categoryActiva"/>
-            <span>Activo</span>
-        </label> -->
+        <div *ngIf="nombre_categoria!=''" >
+            <!-- <div class="input-field">
+                <input id="nombre_subcategoria" type="text" class="validate" [(ngModel)]="nombre_subcategoria" name="nombre_subcategoria">
+                <label for="nombre_subcategoria">Subcategoría</label>
+            </div> -->
+            
+            <a class="btn-floating btn-small waves-effect waves-light green"><i class="material-icons">add</i></a>Añadir Subcategoria
+            <!-- <div *ngFor="let subcategory of additionalSubcategories; let i = index">
+                Subcategoria:
+                <div class="input-field inline">
+                  <input  type="text" [ngModel]="additionalSubcategories[i]" name="nombre_subcategoria_{{i}}">
+                  <a class="btn-floating btn-small waves-effect waves-light green" (click)="addSubcategory(i,additionalSubcategories[i])"><i class="material-icons">add</i></a>
+                </div>
+            </div> -->
+        </div>
         <br>
-        <input type="submit" value="Nueva" class="waves-effect waves-light btn-small" (click)="newCategory()">
+        <input type="submit" value="Guardar" class="waves-effect waves-light btn-small" (click)="newCategory()">
     </form>
     <br>
-
     <table class="highlight responsive-table">
         <thead>
           <tr>
-              <th>Nombre</th>
-              <th>Opciones</th>
+              <th>Categorias y subcategorias</th>
+              <th></th>
           </tr>
         </thead>
         <tbody >
           <tr *ngFor="let category of listaCategorias">
-            <td>{{category.category_name}}</td>
             <td>
-                <input type="button" value="Editar" class="waves-effect waves-light btn-small">
-                <span> -{{category.id}} </span>
-                <input type="button" value="Eliminar" class="waves-effect waves-light btn-small" (click)="deleteCategory(category.id)">
+                <strong>{{category.id}}-{{category.category_name}}</strong>
+                <ul *ngFor="let subcategory of category.subcategory">
+                    <li>· {{subcategory.id}} - {{subcategory.subcategory_name}}</li>
+                </ul>
+            </td>
+            <td>
+                <input type="button" value="Editar" class="waves-effect waves-light btn-small" (click)="updateCategory(category.id, nombre_categoria)">
+                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Editar en modal</a>
+                <input type="button" value="Eliminar" class="waves-effect waves-light btn-small" disabled (click)="deleteCategory(category.id)">
             </td>
           </tr>
+          <a onclick="M.toast({html: 'I am a toast', classes: 'rounded'})" class="btn">Toast!</a>
         </tbody>
       </table>
- 
-<app-subcategory></app-subcategory>
-
+      -----------------------------------------------------
+      <!-- <app-subcategory></app-subcategory> -->
 </div>
 
-video 20
+
+  <!-- Modal Trigger -->
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modificar categoría</h4>
+      <input id="nombre_categoria2" type="text" class="validate" [(ngModel)]="nombre_categoria" name="nombre_categoria">
+    </div>
+    <div class="modal-footer">
+      <a href="/category" class="modal-close waves-effect waves-green btn-small">Guardar</a>
+      <a href="/category" class="modal-close waves-effect waves-green btn-small">Cancelar</a>
+    </div>
+  </div>

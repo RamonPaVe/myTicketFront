@@ -19,6 +19,9 @@ form{
     margin:5px;
     z-index: 11 !important;
 }
+.btn-small{
+    margin: 0 5px;
+}
 
 .idTicket{
     position: relative;

@@ -1,0 +1,14 @@
+<form [formGroup]="categoriaForm">
+    <div formArrayName="categorias">
+      <div *ngFor="let categoria of categorias.controls; let i = index">
+        <input formControlName="{{i}}">
+        <button (click)="agregarSubcategoria(i)">Añadir Subcategoría</button>
+        <div formArrayName="subcategorias">
+          <div *ngFor="let subcategoria of getSubcategorias(categoria)?.controls; let j = index">
+            <input formControlName="{{j}}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
