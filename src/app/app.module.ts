@@ -16,6 +16,8 @@ import { StateComponent } from './state/state.component';
 import { GroupComponent } from './group/group.component';
 import { PriorityComponent } from './priority/priority.component';
 import { LevelComponent } from './level/level.component';
+import { TicketTypeComponent } from './ticket-type/ticket-type.component';
+import { ProviderComponent } from './provider/provider.component';
 
 const appRoutes: Routes = [
   {path:"", component: AppComponent},
@@ -31,6 +33,14 @@ const appRoutes: Routes = [
   {path:"state", component:StateComponent},
   {path:"group", component:GroupComponent},
   {path:"group/:id", component:GroupComponent},
+  {path:"priority", component: PriorityComponent,},
+  {path:"priority/:id", component: PriorityComponent,},
+  {path:"level", component:LevelComponent},
+  {path:"level/:id", component:LevelComponent},
+  {path:"ticket-type", component:TicketTypeComponent},
+  {path:"ticket-type/:id", component:TicketTypeComponent},
+  {path:"provider", component:ProviderComponent},
+  {path:"provider/:id", component:ProviderComponent},
 ];
 
 @NgModule({
@@ -42,7 +52,11 @@ const appRoutes: Routes = [
     CenterComponent, 
     UserComponent, 
     StateComponent, 
-    GroupComponent, PriorityComponent, LevelComponent
+    GroupComponent, 
+    PriorityComponent, 
+    LevelComponent, 
+    TicketTypeComponent, 
+    ProviderComponent
   ],
   imports: [
     BrowserModule,

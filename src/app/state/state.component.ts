@@ -1,9 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { State } from "../models/state.model";
 import { StateService } from "../state/state.service";
-import { UserService } from "../user/user.service";
 import { map } from "rxjs/internal/operators/map";
-import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-state',
@@ -14,18 +12,11 @@ export class StateComponent implements OnInit{
 
     titulo="Gestión de estados";
     nombre_estado="";
-    nombre_usuario="";
-    id="";
-
     listStates:any;
-    listUsers:any;
 
     //Injecting service
     constructor(
-        public stateService: StateService, 
-        public userService:UserService,
-        private route:ActivatedRoute,
-        private router:Router){}
+        public stateService: StateService){}
 
     ngOnInit() {
         this.getListStates();
@@ -76,7 +67,6 @@ export class StateComponent implements OnInit{
         }
     }
 
-
     // Delete a center   
     deleteState(id:number) {
         this.stateService
@@ -87,10 +77,4 @@ export class StateComponent implements OnInit{
                 complete: function(){}
             });
     }
-
-    // send the ID of Center to User
-    routeToUser(id:string|null) {
-        this.router.navigate(['/user', id]);
-      }
-
 }

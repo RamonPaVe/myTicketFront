@@ -1,0 +1,39 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+        <div class="input-field">
+            <input id="nombre_tipo" type="text" class="validate" [(ngModel)]="nombre_tipo" name="nombre_tipo">
+            <label for="nombre_tipo">Nombre del nuevo tipo de servicio</label>
+        </div>
+        <button class="waves-effect waves-light btn-small" (click)="newTicketType()" 
+            onclick="M.toast({html: 'Guardando tipo de servicio', classes: 'rounded'})">Nuevo tipo</button>
+    
+    <br><br>
+    <div class="contenedorPersonalizado">
+        <table class="highlight responsive-table">
+            <thead class="row">
+                <tr>
+                    <th class="col s3">Tipos de servicio</th>
+          
+                    <th class="col s3">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="row">
+                <tr *ngFor="let ticketTypes of listTicketTypes;let i=index;">
+                    <td class="col s3">
+                        <input  type="text" id="ticketTypeName_{{i}}" [(ngModel)]="ticketTypes.typeName" name="ticketTypes.typeName">
+                    </td>
+  
+                    <td class="col s3">
+                        <input type="button" value="Actualizar tipo" class="waves-effect waves-light btn row" 
+                            (click)="updateTicketType(ticketTypes.id, ticketTypes.typeName)"
+                            onclick="M.toast({html: 'Actualizando tipo de servicio', classes: 'rounded'})">
+                        <br>
+                        <input type="button" value="Eliminar tipo" class="waves-effect waves-light btn red row" 
+                            (click)="deleteTicketType(ticketTypes.id)"
+                            onclick="M.toast({html: 'Eliminando tipo de servicio', classes: 'rounded'})">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

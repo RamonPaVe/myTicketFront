@@ -1,1 +1,48 @@
-<p>level works!</p>
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+    
+        <div class="input-field">
+            <input id="nombre_nivel" type="text" class="validate" [(ngModel)]="nombre_nivel" name="nombre_nivel">
+            <label for="nombre_nivel">Nombre del nuevo nivel</label>
+        </div>
+        <button class="waves-effect waves-light btn-small" (click)="newLevel()" 
+            onclick="M.toast({html: 'Guardando nivel', classes: 'rounded'})">Nuevo nivel</button>
+    
+    <br><br>
+    <div class="contenedorPersonalizado">
+        <table class="highlight responsive-table">
+            <thead class="row">
+                <tr>
+                    <th class="col s3">Niveles</th>
+                    <th class="col s6">Prioridades</th>
+                    <th class="col s3">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="row">
+                <tr *ngFor="let level of listaNiveles;let i=index;">
+                    <td class="col s3">
+                        <input  type="text" id="levelName_{{i}}" [(ngModel)]="level.level_name" name="level.level_Name">
+                    </td>
+                    <td class="col s6">
+                        <ul *ngFor="let priority of level.id_priority">
+                            <li>{{priority.priority_name}}</li>
+                        </ul>
+                    </td>
+                    <td class="col s3">
+                        <input type="button" value="Actualizar nivel" class="waves-effect waves-light btn row" 
+                            (click)="updateLevel(level.id, level.levelName)"
+                            onclick="M.toast({html: 'Actualizando nivel', classes: 'rounded'})">
+                        <br>
+                        <input type="button" value="Editar niveles" class="waves-effect waves-light btn row" 
+                            (click)="routeToPriority(level.id)">
+                        <br>
+                        <input type="button" value="Eliminar nivel" class="waves-effect waves-light btn red row" 
+                            (click)="deleteLevel(level.id)"
+                            onclick="M.toast({html: 'Eliminando nivel', classes: 'rounded'})">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

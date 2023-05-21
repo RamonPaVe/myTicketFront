@@ -30,10 +30,10 @@ export class SubcategoryComponent implements OnInit {
     ngOnInit() {
         this.categoryID=this.route.snapshot.paramMap.get("id");
         console.log("categoria del route:",this.categoryID);
-        this.selectedCategory= this.categoryID !== null ? this.categoryID : ''; //obtenemos el valor de la variable que viene de categoria
+        this.selectedCategory= this.categoryID !== null ? this.categoryID : '-1'; //obtenemos el valor de la variable que viene de categoria
       //  this.getListSubcategories();
         this.getListCategories();
-        if(this.selectedCategory!=''){
+        if(this.selectedCategory>'0'){
             this.getCategory(this.selectedCategory);
         }        
     }

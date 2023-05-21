@@ -1,0 +1,54 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+        <div class="input-field">
+            <input id="nombre_proveedor" type="text" class="validate" [(ngModel)]="nombre_proveedor" name="nombre_proveedor">
+            <label for="nombre_proveedor">Nombre del nuevo proveedor</label>
+        </div>
+        <div class="input-field">
+            <input id="email_proveedor" type="text" class="validate" [(ngModel)]="email_proveedor" name="email_proveedor">
+            <label for="email_proveedor">E-mail</label>
+        </div>
+        <div class="input-field">
+            <input id="telefono_proveedor" type="text" class="validate" [(ngModel)]="telefono_proveedor" name="telefono_proveedor">
+            <label for="telefono_proveedor">Telefono</label>
+        </div>
+        <button class="waves-effect waves-light btn-small" (click)="newTicketType()" 
+            onclick="M.toast({html: 'Guardando proveedor', classes: 'rounded'})">Nuevo proveedor</button>
+    
+    <br><br>
+    <div class="contenedorPersonalizado">
+        <table class="highlight responsive-table">
+            <thead class="row">
+                <tr>
+                    <th class="col s3">Nombre proveedor</th>
+                    <th class="col s3">E-mail</th>
+                    <th class="col s3">Teléfono</th>
+                    <th class="col s3">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="row">
+                <tr *ngFor="let provider of listProviders;let i=index;">
+                    <td class="col s3">
+                        <input  type="text" id="providerName_{{i}}" [(ngModel)]="provider.providerName" name="provider.providerName">
+                    </td>
+                    <td class="col s3">
+                        <input  type="text" id="providerEmail_{{i}}" [(ngModel)]="provider.providerEmail" name="provider.providerEmail">
+                    </td>
+                    <td class="col s3">
+                        <input  type="text" id="providerPhone_{{i}}" [(ngModel)]="provider.providerPhone" name="provider.providerPhone">
+                    </td>
+  
+                    <td class="col s3">
+                        <input type="button" value="Actualizar tipo" class="waves-effect waves-light btn row" 
+                            (click)="updateProvider(provider.id, provider.providerName, provider.providerEmail, provider.providerPhone)"
+                            onclick="M.toast({html: 'Actualizando proveedor', classes: 'rounded'})">
+                        <br>
+                        <input type="button" value="Eliminar tipo" class="waves-effect waves-light btn red row" 
+                            (click)="deleteProvider(provider.id)"
+                            onclick="M.toast({html: 'Eliminando proveedor', classes: 'rounded'})">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
