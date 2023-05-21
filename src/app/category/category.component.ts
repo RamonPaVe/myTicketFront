@@ -3,8 +3,7 @@ import { Category } from "../models/category.model";
 import { CategoryService } from "../category/category.service";
 import { SubcategoryService } from "../subcategory/subcategory.service";
 import { map } from "rxjs/internal/operators/map";
-
-
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-categories",
@@ -20,10 +19,13 @@ export class CategoryComponent implements OnInit{
 
     listaCategorias:any;
     listaSubcategories:any;
-    additionalSubcategories: string[] = [];
 
     //Injecting service
-    constructor(public categoryService: CategoryService, public subcategoryService:SubcategoryService){}
+    constructor(
+        public categoryService: CategoryService, 
+        public subcategoryService:SubcategoryService,
+        private route:ActivatedRoute,
+        private router:Router){}
 
     ngOnInit() {
         this.getListCategories();
@@ -46,26 +48,32 @@ export class CategoryComponent implements OnInit{
     
     // Add a new category (post)
     newCategory(){
-        let category=new Category(this.nombre_categoria);
-        this.categoryService
-            .postCategories(category).pipe(map(data => {this.listaCategorias.push(data);}))
-            .subscribe({
-                next: function(){console.log('Categoria guardada.');},
-                error: function(err){console.log('Ocurrio un error: ', err);},
-                complete: function(){}
-            });
+        if (this.nombre_categoria!=''){
+            let category=new Category(this.nombre_categoria);
+            this.categoryService
+                .postCategories(category).pipe(map(data => {
+                    this.listaCategorias.push(data);
+                    this.nombre_categoria="";}))
+                .subscribe({
+                    next: function(){console.log('Categoria guardada.');},
+                    error: function(err){console.log('Ocurrio un error: ', err);},
+                    complete: function(){}
+                });
+        }
     }
 
     // Update a category  (PUT) 
     updateCategory(id:number, categoryName:string) {
-        let category=new Category(categoryName);
-        this.categoryService
-            .putCategories(id, category).pipe(map(data => {this.getListCategories()}))
-            .subscribe({
-                next: function(){console.log('Categoria actualizada.');},
-                error: function(err){console.log('Ocurrio un error: ', err);},
-                complete: function(){}
-            });
+        if (categoryName!=""){
+            let category=new Category(categoryName);
+            this.categoryService
+                .putCategories(id, category).pipe(map(data => {this.nombre_categoria=""}))
+                .subscribe({
+                    next: function(){console.log('Categoria actualizada.');},
+                    error: function(err){console.log('Ocurrio un error: ', err);},
+                    complete: function(){}
+                });
+        }
     }
 
 
@@ -79,5 +87,10 @@ export class CategoryComponent implements OnInit{
                 complete: function(){}
             });
     }
+
+    // send the ID of Category to Subcategory
+    routeToSubcategory(id:string|null) {
+        this.router.navigate(['/subcategory', id]);
+      }
 
 }

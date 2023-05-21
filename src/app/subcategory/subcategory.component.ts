@@ -1,22 +1,24 @@
-import { Component, ChangeDetectorRef} from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit} from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { SubcategoryService } from './subcategory.service';
 import { map } from "rxjs/internal/operators/map";
 import { Subcategory } from '../models/subcategory.model';
-import { materialize } from 'rxjs';
-//import '../category/category.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-subcategory',
   templateUrl: './subcategory.component.html',
   styleUrls: ['./subcategory.component.css']
 })
-export class SubcategoryComponent {
+export class SubcategoryComponent implements OnInit {
+
+    categoryID:string|null; //valor que se pasa en la ruta
 
     constructor(
         public categoryService: CategoryService, 
         public subcategoryService:SubcategoryService,
-        private changeDetector:ChangeDetectorRef){}
+        private changeDetector:ChangeDetectorRef,
+        private route:ActivatedRoute){}
 
     enableSubcategoryInput=true;
     listCategories:any;
@@ -26,9 +28,14 @@ export class SubcategoryComponent {
     IRI_route="/api/categories/"; //IRI de categorias para las subcategorias
     
     ngOnInit() {
+        this.categoryID=this.route.snapshot.paramMap.get("id");
+        console.log("categoria del route:",this.categoryID);
+        this.selectedCategory= this.categoryID !== null ? this.categoryID : ''; //obtenemos el valor de la variable que viene de categoria
       //  this.getListSubcategories();
         this.getListCategories();
-        
+        if(this.selectedCategory!=''){
+            this.getCategory(this.selectedCategory);
+        }        
     }
     
     //--------------------------------------------------------------------------------------------

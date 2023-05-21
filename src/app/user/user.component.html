@@ -1,0 +1,94 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+
+    <div class="row">
+        <div class="input-field col s5">
+            <input id="username" type="text" class="validate" required [(ngModel)]="username" name="username">
+            <label for="username">Nombre</label>
+        </div>
+        <div class="input-field col s7">
+            <input id="surname" type="text" class="validate" required [(ngModel)]="surname" name="surname">
+            <label for="surname">Apellidos</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="user_email" type="text" class="validate" [(ngModel)]="user_email" name="user_email">
+            <label for="user_email">E-mail</label>
+        </div>
+        <div class="input-field col s6">
+            <input id="user_phone" type="text" class="validate" [(ngModel)]="user_phone" name="user_phone">
+            <label for="user_phone">Telefono/s</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s2">
+            <input id="dni" type="text" class="validate" required [(ngModel)]="dni" name="dni">
+            <label for="dni">DNI</label>
+        </div>
+        <form>
+            <div class="input-field col s2">
+                <input id="password" type="text" class="validate" required [(ngModel)]="password" name="password">
+                <label for="password">Password</label>
+            </div>
+            <div class="input-field col s2">
+                <input id="passwordVerify" type="text" class="validate" required [(ngModel)]="passwordVerify" name="passwordVerify">
+                <label for="passwordVerify">Repite el password</label>
+            </div>
+        </form>
+        <div class="input-field col s4" >
+            <select class="browser-default" [(ngModel)]="selectedCenter" name="selectedCenter">
+                <option value="-1" disabled selected>Elige el centro habitual del usuario</option>
+                <option *ngFor="let center of listCenters" [value]="center.id">{{center.id}}-{{center.center_name}}</option>
+            </select>
+        </div>
+        <div class="switch col s2">
+            <label>
+              Inactivo
+              <input [checked]="active" type="checkbox" (click)="activeCheck()">
+              <span class="lever"></span>
+              Activo
+            </label>
+        </div>
+    </div>
+
+    <button class="waves-effect waves-light btn-small" (click)="newUser()" onclick="M.toast({html: 'Guardando usuario', classes: 'rounded'})">Nuevo Usuario</button>
+
+    <br><br>
+    <div class="contenedorPersonalizado">
+        <table class="highlight responsive-table">
+            <thead class="row">
+                <tr>
+                    <th class="col s3">Nombre</th>
+                    <th class="col s6">Apellidos</th>
+                    <th class="col s3">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="row">
+                <tr *ngFor="let user of listUsers;let i=index;">
+                    <td class="col s3">
+                        <input  type="text" id="userName_{{i}}" [(ngModel)]="user.username" name="user.username">
+                    </td>
+                    <td class="col s6">
+                        <input  type="text" id="userSurname_{{i}}" [(ngModel)]="user.surname" name="user.surname">
+                    </td>
+                    <td class="col s3">
+                        <input type="button" value="Actualizar usuario" class="waves-effect waves-light btn row" 
+                            (click)="updateUser(user.id)">
+                        <br>
+                        <input type="button" value="Editar usuarios" class="waves-effect waves-light btn row" 
+                           >  
+                        <br>
+                        <input type="button" value="Eliminar usuario" class="waves-effect waves-light btn red row" 
+                            (click)="deleteUser(user.id)"
+                            onclick="M.toast({html: 'Eliminando usuario', classes: 'rounded'})">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

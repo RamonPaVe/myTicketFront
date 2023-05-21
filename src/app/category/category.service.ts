@@ -33,7 +33,7 @@ export class CategoryService {
   }
   // DELETE-------------------------------------------------------------------------
   deleteCategories(id: string | number) {
-    console.log('Borrando categoria...');
+    console.log('Borrando categoria...',id);
     return this.http.delete(`${this.serverApi}/categories/${id}`);
   }
 }

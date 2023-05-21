@@ -1,0 +1,39 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+        <div class="input-field">
+            <input id="nombre_estado" type="text" class="validate" [(ngModel)]="nombre_estado" name="nombre_estado">
+            <label for="nombre_estado">Nombre del nuevo estado</label>
+        </div>
+        <button class="waves-effect waves-light btn-small" (click)="newState()" onclick="M.toast({html: 'Guardando estado', classes: 'rounded'})">Nuevo estado</button>
+    
+    <br><br>
+    <div class="contenedorPersonalizado">
+        <table class="highlight responsive-table">
+            <thead class="row">
+                <tr>
+                    <th class="col s3">Estados</th>
+          
+                    <th class="col s3">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="row">
+                <tr *ngFor="let state of listStates;let i=index;">
+                    <td class="col s3">
+                        <input  type="text" id="stateName_{{i}}" [(ngModel)]="state.state_name" name="state.state_name">
+                    </td>
+  
+                    <td class="col s3">
+                        <input type="button" value="Actualizar estado" class="waves-effect waves-light btn row" 
+                            (click)="updateState(state.id, state.state_name)"
+                            onclick="M.toast({html: 'Actualizando estado', classes: 'rounded'})">
+                        <br>
+                        <input type="button" value="Eliminar estado" class="waves-effect waves-light btn red row" 
+                            (click)="deleteState(state.id)"
+                            onclick="M.toast({html: 'Eliminando estado', classes: 'rounded'})">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

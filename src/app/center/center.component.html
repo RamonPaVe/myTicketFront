@@ -1,0 +1,46 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+        <div class="input-field">
+            <input id="nombre_centro" type="text" class="validate" [(ngModel)]="nombre_centro" name="nombre_centro">
+            <label for="nombre_centro">Nombre del nuevo centro</label>
+        </div>
+        <button class="waves-effect waves-light btn-small" (click)="newCenter()" onclick="M.toast({html: 'Guardando centro', classes: 'rounded'})">Nuevo centro</button>
+    
+    <br><br>
+    <div class="contenedorPersonalizado">
+        <table class="highlight responsive-table">
+            <thead class="row">
+                <tr>
+                    <th class="col s3">Centros</th>
+                    <th class="col s6">Usuarios</th>
+                    <th class="col s3">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="row">
+                <tr *ngFor="let center of listCenters;let i=index;">
+                    <td class="col s3">
+                        <input  type="text" id="centerName_{{i}}" [(ngModel)]="center.center_name" name="center.center_name">
+                    </td>
+                    <td class="col s6">
+                        <ul *ngFor="let user of center.users">
+                            <li>{{user.surname}}, {{user.username}}</li>
+                        </ul>
+                    </td>
+                    <td class="col s3">
+                        <input type="button" value="Actualizar centro" class="waves-effect waves-light btn row" 
+                            (click)="updateCenter(center.id, center.center_name)"
+                            onclick="M.toast({html: 'Actualizando centro', classes: 'rounded'})">
+                        <br>
+                        <input type="button" value="Editar usuarios" class="waves-effect waves-light btn row" 
+                            (click)="routeToUser(center.id)">
+                        <br>
+                        <input type="button" value="Eliminar centro" class="waves-effect waves-light btn red row" 
+                            (click)="deleteCenter(center.id)"
+                            onclick="M.toast({html: 'Eliminando centro', classes: 'rounded'})">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -9,15 +9,28 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TicketComponent } from './ticket/ticket.component';
 import { RouterModule, Routes } from '@angular/router';
-
 import { ReactiveFormsModule } from '@angular/forms';
-import { CategoriaFormComponent } from './category-form/category-form.component';
+import { CenterComponent } from './center/center.component';
+import { UserComponent } from './user/user.component';
+import { StateComponent } from './state/state.component';
+import { GroupComponent } from './group/group.component';
+import { PriorityComponent } from './priority/priority.component';
+import { LevelComponent } from './level/level.component';
 
 const appRoutes: Routes = [
   {path:"", component: AppComponent},
   {path:"category", component: CategoryComponent,},
+  {path:"category/:id", component: CategoryComponent,},
   {path:"subcategory", component:SubcategoryComponent},
-  {path:"ticket", component:TicketComponent}
+  {path:"subcategory/:id", component:SubcategoryComponent},
+  {path:"ticket", component:TicketComponent},
+  {path:"center", component:CenterComponent},
+  {path:"center/:id", component:CenterComponent},
+  {path:"user", component:UserComponent},
+  {path:"user/:id", component:UserComponent},
+  {path:"state", component:StateComponent},
+  {path:"group", component:GroupComponent},
+  {path:"group/:id", component:GroupComponent},
 ];
 
 @NgModule({
@@ -26,7 +39,10 @@ const appRoutes: Routes = [
     CategoryComponent, 
     SubcategoryComponent, 
     TicketComponent, 
-    CategoriaFormComponent
+    CenterComponent, 
+    UserComponent, 
+    StateComponent, 
+    GroupComponent, PriorityComponent, LevelComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +52,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule
   ],
+  exports: [RouterModule],
   providers: [],
   bootstrap: [AppComponent]
 })

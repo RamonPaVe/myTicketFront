@@ -24,7 +24,7 @@ export class SubcategoryService {
 
   // POST --------------------------------------------------------------------------
   postSubcategories(subcategory: Subcategory) {
-    console.log('Guardando subcategoria...');
+    console.log('Guardando subcategoria...',subcategory);
     return this.http.post(`${this.serverApi}/subcategories.json`, subcategory);
   }
   // PUT ---------------------------------------------------------------------------

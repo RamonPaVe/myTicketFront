@@ -20,7 +20,7 @@ form{
     z-index: 11 !important;
 }
 .btn-small{
-    margin: 0 5px;
+    margin: 10px;
 }
 
 .idTicket{
@@ -34,4 +34,16 @@ form{
 }
 .input-field {
     margin-bottom: 0 !important;
+}
+
+.contenedorCategoria, .contenedorPersonalizado{
+    width: 1280px;
+    height: 71vh;
+    overflow: auto;
+}
+.switch{
+    margin-top: 25px;
+}
+.switch > label{
+    font-size: 1rem;
 }
