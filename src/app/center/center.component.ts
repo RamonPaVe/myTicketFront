@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Center } from "../models/center.model";
-import { CenterService } from "../center/center.service";
-import { UserService } from "../user/user.service";
+import { ApiService } from "../services/httpClientService.service";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -22,8 +21,7 @@ export class CenterComponent implements OnInit{
 
     //Injecting service
     constructor(
-        public centerService: CenterService, 
-        public userService:UserService,
+        public apiService: ApiService, 
         private route:ActivatedRoute,
         private router:Router){}
 
@@ -33,8 +31,8 @@ export class CenterComponent implements OnInit{
 
     // Get the list of all the centers
     getListCenters(){    
-        this.centerService
-            .getCenters()
+        this.apiService
+            .getAll('centers')
             .pipe(map(data => {
                 this.listCenters=data;
                 console.log("Centers: ",this.listCenters);
@@ -50,8 +48,8 @@ export class CenterComponent implements OnInit{
     newCenter(){
         if(this.nombre_centro!=""){
             let center=new Center(this.nombre_centro);
-            this.centerService
-                .postCenter(center).pipe(map(data => {
+            this.apiService
+                .postInTable('centers',center).pipe(map(data => {
                     this.listCenters.push(data);
                     this.nombre_centro="";}))
                 .subscribe({
@@ -66,8 +64,8 @@ export class CenterComponent implements OnInit{
     updateCenter(id:number, centerName:string) {
         if (centerName!=""){
             let center=new Center(centerName);
-            this.centerService
-                .putCenter(id, center).pipe(map(data => {this.nombre_centro=""}))
+            this.apiService
+                .putInTable('centers',id, center).pipe(map(data => {this.nombre_centro=""}))
                 .subscribe({
                     next: function(){console.log('Centro actualizado.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -79,8 +77,8 @@ export class CenterComponent implements OnInit{
 
     // Delete a center   
     deleteCenter(id:number) {
-        this.centerService
-            .deleteCenter(id).pipe(map(data => {this.listCenters = this.listCenters.filter( (center: { id: number; }) => center.id != id);}))
+        this.apiService
+            .deleteFromTable('centers',id).pipe(map(data => {this.listCenters = this.listCenters.filter( (center: { id: number; }) => center.id != id);}))
             .subscribe({
                 next: function(){console.log('Centro eliminado.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

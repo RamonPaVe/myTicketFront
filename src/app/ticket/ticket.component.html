@@ -40,100 +40,82 @@
             <input id="email" type="email" class="validate">
             <label for="email">e-mail</label>
           </div>
-          <div class="input-field col s3">
-            <select>
-              <option value="" disabled selected>Elige una opción</option>
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
+          <div class="input-field col s3" >
+            <select class="browser-default" [(ngModel)]="selectedCenter" name="selectedCenter" (change)="getListCenters()" >
+                <option value="-1" disabled selected>Elige un centro</option>
+                <option *ngFor="let center of listCenters" [value]="center.id">{{center.center_name}}</option>
             </select>
-            <label>Centro</label>
-          </div>
+        </div>
         </div>
       </fieldset>
       <fieldset>
         <legend>Detalles del servicio:</legend>
         <div class="row">
           <div class="input-field col s1">
-            <select>
-              <option value="" disabled selected>Elige una opción</option>
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
+            <label class="label">Tipo</label>
+            <select class="browser-default" [(ngModel)]="selectedTycketType" name="selectedTycketType" (change)="getListTicketTypes()" >
+                <option value="-1" disabled selected>Elige tipo</option>
+                <option *ngFor="let ticketType of listTicketTypes" [value]="ticketType.id">{{ticketType.typeName}}</option>
             </select>
-            <label>Categoria de servicio</label>
-        </div>
-        <div class="input-field col s1">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Nivel</label>
-        </div>
-        <div class="input-field col s1">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Prioridad</label>
-        </div>
-        <div class="input-field col s2">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Grupo</label>
-        </div>
-        <div class="input-field col s2">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Tecnico asignado</label>
-        </div>
-        <div class="input-field col s1">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Categoria</label>
-        </div>
-        <div class="input-field col s1">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Subcategoria</label>
-        </div>
-        <div class="input-field col s2">
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
-          <label>Proveedor</label>
-        </div>
-        <div class="input-field col s1">
-          <input id="externalTicket" type="text" class="validate">
-          <label for="externalTicket">Ticket Externo</label>
-        </div>
+            </div>
+            <div class="input-field col s1">
+                <label class="label">Categoria</label>
+                <select class="browser-default" [(ngModel)]="selectedCategory" name="selectedCategory" (change)="getListCategories()" >
+                    <option value="-1" disabled selected>Elige categoria</option>
+                    <option *ngFor="let category of listCategories" [value]="category.id">{{category.category_name}}</option>
+                </select>
+            </div>
+            <div class="input-field col s2">
+                <label class="label">Subategoria</label>
+                <select class="browser-default" [(ngModel)]="selectedSubcategory" name="selectedSubcategory" [disabled]="enableSubcategoryInput">
+                    <option value="-1" disabled selected>Elige subcategoria</option>
+                    <option *ngFor="let subcategory of listSubcategory.subcategory" [value]="subcategory.id">{{subcategory.subcategory_name}}</option>
+                </select>
+            </div>
+            <div class="input-field col s1">
+                <label class="label">Nivel</label>
+                <select class="browser-default" [(ngModel)]="selectedLevel" name="selectedLevel" (change)="getListLevels()" >
+                    <option value="-1" disabled selected>Elige nivel</option>
+                    <option *ngFor="let level of listaNiveles" [value]="level.id">{{level.level_name}}</option>
+                </select>
+            </div>
+            <div class="input-field col s1">
+                <label class="label">Prioridad</label>
+                <select class="browser-default" [(ngModel)]="selectedPriority" name="selectedPriority" [disabled]="enablePriorityInput" >
+                    <option value="-1" disabled selected>Elige prioridad</option>
+                    <option *ngFor="let priority of listPriorities.id_priority" [value]="priority.id">{{priority.priority_name}}</option>
+                </select>
+            </div>
+            <div class="input-field col s2">
+                <label class="label">Grupo</label>
+                <select class="browser-default" [(ngModel)]="selectedGoup" name="selectedGoup" (change)="getListGroups()" >
+                    <option value="-1" disabled selected>Elige grupo</option>
+                    <option *ngFor="let group of listaGrupos" [value]="group.id">{{group.group_name}}</option>
+                </select>
+            </div>
+            <div class="input-field col s2">
+                <label class="label">Técnico asignado</label>
+            <select>
+                <option value="" disabled selected>Elige técnico</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select>
+            </div>
+           
+
+
+
+
+            <div class="input-field col s2">
+                <label class="label">Proveedor</label>
+                <select class="browser-default" [(ngModel)]="selectedProvider" name="selectedProvider" (change)="getListProviders()" >
+                    <option value="-1" disabled selected>Elige un proveedor</option>
+                    <option *ngFor="let provider of listProviders" [value]="provider.id">{{provider.provider_name}}</option>
+                </select>
+            </div>
+            
       </div>
-
-
-
 
       <div class="row">
         
@@ -143,17 +125,23 @@
 
 
       <div class="row">
-        <div class="input-field col s12">
-          <input id="summary" type="text" class="validate">
+        <div class="input-field col s11">
+          <input id="summary" type="text" class="validate summary">
           <label for="sumary">Resumen</label>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="description" class="materialize-textarea"></textarea>
-            <label for="description">Descripción</label>
+        <div class="input-field col s1">
+            <input id="externalTicket" type="text" class="validate">
+            <label for="externalTicket">Ticket Externo</label>
         </div>
       </div>
+      <fieldset class="descripcion">
+        <legend>Descripción</legend>
+        <div class="row field-description">
+            <div class="input-field col s12 field-description">
+            <textarea id="description" class="materialize-textarea field-description"></textarea>
+            </div>
+        </div>
+      </fieldset>
       <div class="row">
         <div class="input-field col s12">
           <textarea id="resolution" class="materialize-textarea"></textarea>

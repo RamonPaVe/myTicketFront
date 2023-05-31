@@ -1,21 +1,22 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Priority } from "../models/priority.model";
-import { PriorityService } from "../priority/priority.service";
-import { LevelService } from "../level/level.service";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ApiService } from "../services/httpClientService.service";
 
 @Component({
   selector: 'app-priority',
   templateUrl: './priority.component.html',
   styleUrls: ['./priority.component.css']
 })
-export class PriorityComponent implements OnInit{   
+export class PriorityComponent implements OnInit{
+    static getListPriorities() {
+        throw new Error("Method not implemented.");
+    }   
     levelID:string|null; //valor que se pasa en la ruta
 
     constructor(
-        public levelService: LevelService, 
-        public priorityService:PriorityService,
+        public apiService: ApiService, 
         private changeDetector:ChangeDetectorRef,
         private route:ActivatedRoute){}
 
@@ -63,7 +64,7 @@ export class PriorityComponent implements OnInit{
 
         // Get the list of all priorities
         getListPriorities(){    
-        this.priorityService
+        this.apiService
             .getPriorities()
             .pipe(map(data => {
                 this.listPriorities=data;
@@ -80,7 +81,7 @@ export class PriorityComponent implements OnInit{
 
     // Get the list of all levels
     getListLevels(){    
-        this.levelService
+        this.apiService
             .getLevels()
             .pipe(map(data => {
                 this.listLevels=data;
@@ -100,8 +101,8 @@ export class PriorityComponent implements OnInit{
             levelName: this.IRI_route+this.selectedLevel,
             idPriority: []
             };
-        this.levelService
-            .getLevelId(parseInt(level))
+        this.apiService
+            .getId('levels',parseInt(level))
             .pipe(map(data => {
                 this.nuevoNivel=data;
                 this.enablePriorityInput=false;
@@ -115,8 +116,8 @@ export class PriorityComponent implements OnInit{
     }
     // Add a new priority (post)
     newPriority(priority:any){
-        this.priorityService
-            .postPriority(priority).pipe(map(data => {this.getLevel(this.selectedLevel);}))
+        this.apiService
+            .postInTable('priorities',priority).pipe(map(data => {this.getLevel(this.selectedLevel);}))
             .subscribe({
                 next: function(){console.log('Prioridad guardada.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},
@@ -128,8 +129,8 @@ export class PriorityComponent implements OnInit{
     updatePriority(id:number, priorityName:string) {
         if (priorityName!=""){
             let priority=new Priority(this.IRI_route+this.selectedLevel, priorityName);
-            this.priorityService
-                .putPriority(id, priority).pipe(map(data => {}))
+            this.apiService
+                .putInTable('priorities',id, priority).pipe(map(data => {}))
                 .subscribe({
                     next: function(){console.log('Prioridad actualizada.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -140,8 +141,8 @@ export class PriorityComponent implements OnInit{
 
     // Delete a priority   
     deletePriority(id:number) {
-        this.priorityService
-            .deletePriority(id).pipe(map(data => {this.getLevel(this.selectedLevel);}))
+        this.apiService
+            .deleteFromTable('priorities',id).pipe(map(data => {this.getLevel(this.selectedLevel);}))
             .subscribe({
                 next: function(){console.log('Prioridad eliminada.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

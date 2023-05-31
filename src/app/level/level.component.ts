@@ -1,7 +1,6 @@
+import { ApiService } from './../services/httpClientService.service';
 import { Component, OnInit } from "@angular/core";
 import { Level } from "../models/level.model";
-import { LevelService } from "../level/level.service";
-import { PriorityService } from "../priority/priority.service";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -21,8 +20,7 @@ export class LevelComponent implements OnInit{
 
     //Injecting service
     constructor(
-        public levelService: LevelService, 
-        public priorityService:PriorityService,
+        public apiService: ApiService, 
         private route:ActivatedRoute,
         private router:Router){}
 
@@ -32,7 +30,7 @@ export class LevelComponent implements OnInit{
 
     // Get the list of all levels
     getListLevels(){    
-        this.levelService
+        this.apiService
             .getLevels()
             .pipe(map(data => {
                 this.listaNiveles=data;
@@ -49,8 +47,8 @@ export class LevelComponent implements OnInit{
     newLevel(){
         if (this.nombre_nivel!=''){
             let level=new Level(this.nombre_nivel);
-            this.levelService
-                .postLevel(level).pipe(map(data => {
+            this.apiService
+                .postInTable('levels',level).pipe(map(data => {
                     this.listaNiveles.push(data);
                     this.nombre_nivel="";}))
                 .subscribe({
@@ -65,8 +63,8 @@ export class LevelComponent implements OnInit{
     updateLevel(id:number, levelName:string) {
         if (levelName!=""){
             let level=new Level(levelName);
-            this.levelService
-                .putLevel(id, level).pipe(map(data => {this.nombre_nivel=""}))
+            this.apiService
+                .putInTable('levels',id, level).pipe(map(data => {this.nombre_nivel=""}))
                 .subscribe({
                     next: function(){console.log('Nivel actualizado.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -78,8 +76,8 @@ export class LevelComponent implements OnInit{
 
     // Delete a level   
     deleteLevel(id:number) {
-        this.levelService
-            .deleteLevel(id).pipe(map(data => {this.listaNiveles = this.listaNiveles.filter( (level: { id: number; }) => level.id != id);}))
+        this.apiService
+            .deleteFromTable('levels',id).pipe(map(data => {this.listaNiveles = this.listaNiveles.filter( (level: { id: number; }) => level.id != id);}))
             .subscribe({
                 next: function(){console.log('Nivel eliminado.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { TicketType } from "../models/ticket-type.model";
-import { TicketTypeService } from "../ticket-type/ticket-type.service";
 import { map } from "rxjs/internal/operators/map";
+import { ApiService } from "../services/httpClientService.service";
 
 @Component({
   selector: 'app-ticket-type',
@@ -16,7 +16,7 @@ export class TicketTypeComponent implements OnInit{
 
     //Injecting service
     constructor(
-        public ticketTypeService: TicketTypeService){}
+        public apiService: ApiService){}
 
     ngOnInit() {
         this.getListTicketTypes();
@@ -24,8 +24,8 @@ export class TicketTypeComponent implements OnInit{
 
     // Get the list of all the ticketTypes
     getListTicketTypes(){    
-        this.ticketTypeService
-            .getTicketTypes()
+        this.apiService
+            .getAll('ticket_types')
             .pipe(map(data => {
                 this.listTicketTypes=data;
                 console.log("Tipos de servicio: ",this.listTicketTypes);
@@ -41,8 +41,8 @@ export class TicketTypeComponent implements OnInit{
     newTicketType(){
         if(this.nombre_tipo!=""){
             let ticketType=new TicketType(this.nombre_tipo);
-            this.ticketTypeService
-                .postTicketType(ticketType).pipe(map(data => {
+            this.apiService
+                .postInTable('ticket_types',ticketType).pipe(map(data => {
                     this.listTicketTypes.push(data);
                     this.nombre_tipo="";}))
                 .subscribe({
@@ -57,8 +57,8 @@ export class TicketTypeComponent implements OnInit{
     updateTicketType(id:number, tycketType_name:string) {
         if (tycketType_name!=""){
             let ticketType=new TicketType(tycketType_name);
-            this.ticketTypeService
-                .putTicketType(id, ticketType).pipe(map(data => {this.nombre_tipo=""}))
+            this.apiService
+                .putInTable('ticket_types', id, ticketType).pipe(map(data => {this.nombre_tipo=""}))
                 .subscribe({
                     next: function(){console.log('Tipo de servicio actualizado.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -69,8 +69,8 @@ export class TicketTypeComponent implements OnInit{
 
     // Delete a center   
     deleteTicketType(id:number) {
-        this.ticketTypeService
-            .deleteTicketType(id).pipe(map(data => {this.listTicketTypes = this.listTicketTypes.filter( (ticketType: { id: number; }) => ticketType.id != id);}))
+        this.apiService
+            .deleteFromTable('ticket_types',id).pipe(map(data => {this.listTicketTypes = this.listTicketTypes.filter( (ticketType: { id: number; }) => ticketType.id != id);}))
             .subscribe({
                 next: function(){console.log('Tipo de servicio eliminado.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

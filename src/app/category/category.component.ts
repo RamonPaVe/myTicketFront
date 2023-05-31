@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Category } from "../models/category.model";
-import { CategoryService } from "../category/category.service";
-import { SubcategoryService } from "../subcategory/subcategory.service";
+import { ApiService } from "../services/httpClientService.service";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -21,9 +20,8 @@ export class CategoryComponent implements OnInit{
     listaSubcategories:any;
 
     //Injecting service
-    constructor(
-        public categoryService: CategoryService, 
-        public subcategoryService:SubcategoryService,
+    constructor( 
+        public apiService:ApiService,
         private route:ActivatedRoute,
         private router:Router){}
 
@@ -33,8 +31,8 @@ export class CategoryComponent implements OnInit{
 
     // Get the list of all categories
     getListCategories(){    
-        this.categoryService
-            .getCategories()
+        this.apiService
+            .getAll('categories')
             .pipe(map(data => {
                 this.listaCategorias=data;
                 console.log("Categorias ",this.listaCategorias);
@@ -50,8 +48,8 @@ export class CategoryComponent implements OnInit{
     newCategory(){
         if (this.nombre_categoria!=''){
             let category=new Category(this.nombre_categoria);
-            this.categoryService
-                .postCategories(category).pipe(map(data => {
+            this.apiService
+                .postInTable('categories',category).pipe(map(data => {
                     this.listaCategorias.push(data);
                     this.nombre_categoria="";}))
                 .subscribe({
@@ -66,8 +64,8 @@ export class CategoryComponent implements OnInit{
     updateCategory(id:number, categoryName:string) {
         if (categoryName!=""){
             let category=new Category(categoryName);
-            this.categoryService
-                .putCategories(id, category).pipe(map(data => {this.nombre_categoria=""}))
+            this.apiService
+                .putInTable('categories',id, category).pipe(map(data => {this.nombre_categoria=""}))
                 .subscribe({
                     next: function(){console.log('Categoria actualizada.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -79,8 +77,8 @@ export class CategoryComponent implements OnInit{
 
     // Delete a category   
     deleteCategory(id:number) {
-        this.categoryService
-            .deleteCategories(id).pipe(map(data => {this.listaCategorias = this.listaCategorias.filter( (category: { id: number; }) => category.id != id);}))
+        this.apiService
+            .deleteFromTable('categories',id).pipe(map(data => {this.listaCategorias = this.listaCategorias.filter( (category: { id: number; }) => category.id != id);}))
             .subscribe({
                 next: function(){console.log('Categoria eliminada.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

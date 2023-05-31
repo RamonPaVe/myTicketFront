@@ -47,3 +47,17 @@ form{
 .switch > label{
     font-size: 1rem;
 }
+.label{
+    font-size: 0.8rem !important;
+    top: -30px !important;
+}
+.field-description{
+    margin:0px !important;
+}
+.summary{
+    font-weight: 600;
+    font-size: 18px !important;
+}
+.descripcion:focus-within{
+    border-color: #8cdf93;
+}

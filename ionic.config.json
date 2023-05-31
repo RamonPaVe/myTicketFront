@@ -1,0 +1,7 @@
+{
+  "name": "myTicketFront",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

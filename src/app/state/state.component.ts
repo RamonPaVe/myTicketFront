@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { State } from "../models/state.model";
-import { StateService } from "../state/state.service";
 import { map } from "rxjs/internal/operators/map";
+import { ApiService } from "../services/httpClientService.service";
 
 @Component({
   selector: 'app-state',
@@ -16,7 +16,7 @@ export class StateComponent implements OnInit{
 
     //Injecting service
     constructor(
-        public stateService: StateService){}
+        public apiService: ApiService){}
 
     ngOnInit() {
         this.getListStates();
@@ -24,8 +24,8 @@ export class StateComponent implements OnInit{
 
     // Get the list of all the centers
     getListStates(){    
-        this.stateService
-            .getStates()
+        this.apiService
+            .getAll('states')
             .pipe(map(data => {
                 this.listStates=data;
                 console.log("Estados: ",this.listStates);
@@ -41,8 +41,8 @@ export class StateComponent implements OnInit{
     newState(){
         if(this.nombre_estado!=""){
             let state=new State(this.nombre_estado);
-            this.stateService
-                .postState(state).pipe(map(data => {
+            this.apiService
+                .postInTable('states',state).pipe(map(data => {
                     this.listStates.push(data);
                     this.nombre_estado="";}))
                 .subscribe({
@@ -57,8 +57,8 @@ export class StateComponent implements OnInit{
     updateState(id:number, stateName:string) {
         if (stateName!=""){
             let state=new State(stateName);
-            this.stateService
-                .putState(id, state).pipe(map(data => {this.nombre_estado=""}))
+            this.apiService
+                .putInTable('states',id, state).pipe(map(data => {this.nombre_estado=""}))
                 .subscribe({
                     next: function(){console.log('Estado actualizado.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -69,8 +69,8 @@ export class StateComponent implements OnInit{
 
     // Delete a center   
     deleteState(id:number) {
-        this.stateService
-            .deleteState(id).pipe(map(data => {this.listStates = this.listStates.filter( (state: { id: number; }) => state.id != id);}))
+        this.apiService
+            .deleteFromTable('states',id).pipe(map(data => {this.listStates = this.listStates.filter( (state: { id: number; }) => state.id != id);}))
             .subscribe({
                 next: function(){console.log('Estado eliminado.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

@@ -18,6 +18,7 @@ import { PriorityComponent } from './priority/priority.component';
 import { LevelComponent } from './level/level.component';
 import { TicketTypeComponent } from './ticket-type/ticket-type.component';
 import { ProviderComponent } from './provider/provider.component';
+import { IonicModule } from '@ionic/angular';
 
 const appRoutes: Routes = [
   {path:"", component: AppComponent},
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IonicModule.forRoot()
   ],
   exports: [RouterModule],
   providers: [],

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Provider } from "../models/provider.model";
-import { ProviderService } from "../provider/provider.service";
 import { map } from "rxjs/internal/operators/map";
+import { ApiService } from "../services/httpClientService.service";
 
 @Component({
   selector: 'app-provider',
@@ -18,7 +18,7 @@ export class ProviderComponent implements OnInit{
 
     //Injecting service
     constructor(
-        public providerService: ProviderService){}
+        public apiService: ApiService){}
 
     ngOnInit() {
         this.getListProviders();
@@ -26,8 +26,8 @@ export class ProviderComponent implements OnInit{
 
     // Get the list of all the providers
     getListProviders(){    
-        this.providerService
-            .getProviders()
+        this.apiService
+            .getAll('providers')
             .pipe(map(data => {
                 this.listProviders=data;
                 console.log("Proveedores: ",this.listProviders);
@@ -43,8 +43,8 @@ export class ProviderComponent implements OnInit{
     newTicketType(){
         if(this.nombre_proveedor!=""){
             let provider=new Provider(this.nombre_proveedor, this.email_proveedor, this.telefono_proveedor);
-            this.providerService
-                .postProvider(provider).pipe(map(data => {
+            this.apiService
+                .postInTable('providers',provider).pipe(map(data => {
                     this.listProviders.push(data);
                     this.nombre_proveedor="";
                     this.email_proveedor="";
@@ -61,8 +61,8 @@ export class ProviderComponent implements OnInit{
     updateProvider(id:number, provider_name:string, provider_email:string, provider_phone:string) {
         if (provider_name!=""){
             let provider=new Provider(provider_name, provider_email, provider_phone);
-            this.providerService
-                .putProvider(id, provider).pipe(map(data => {
+            this.apiService
+                .putInTable('providers',id, provider).pipe(map(data => {
                     this.nombre_proveedor="";
                     this.email_proveedor="";
                     this.telefono_proveedor="";}))
@@ -76,8 +76,8 @@ export class ProviderComponent implements OnInit{
 
     // Delete a provider   
     deleteProvider(id:number) {
-        this.providerService
-            .deleteProvider(id).pipe(map(data => {this.listProviders = this.listProviders.filter( (provider: { id: number; }) => provider.id != id);}))
+        this.apiService
+            .deleteFromTable('providers',id).pipe(map(data => {this.listProviders = this.listProviders.filter( (provider: { id: number; }) => provider.id != id);}))
             .subscribe({
                 next: function(){console.log('Proveedor eliminado.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},

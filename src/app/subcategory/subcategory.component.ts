@@ -1,6 +1,5 @@
 import { Component, ChangeDetectorRef, OnInit} from '@angular/core';
-import { CategoryService } from '../category/category.service';
-import { SubcategoryService } from './subcategory.service';
+import { ApiService } from "../services/httpClientService.service";
 import { map } from "rxjs/internal/operators/map";
 import { Subcategory } from '../models/subcategory.model';
 import { ActivatedRoute } from '@angular/router';
@@ -15,8 +14,7 @@ export class SubcategoryComponent implements OnInit {
     categoryID:string|null; //valor que se pasa en la ruta
 
     constructor(
-        public categoryService: CategoryService, 
-        public subcategoryService:SubcategoryService,
+        public apiService: ApiService, 
         private changeDetector:ChangeDetectorRef,
         private route:ActivatedRoute){}
 
@@ -63,8 +61,8 @@ export class SubcategoryComponent implements OnInit {
 
      // Get the list of all subcategories
      getListSubcategories(){    
-        this.subcategoryService
-            .getSubcategories()
+        this.apiService
+            .getAll('subcategories')
             .pipe(map(data => {
                 this.listSubcategories=data;
                 console.log("Subcategorias ",this.listSubcategories);
@@ -80,8 +78,8 @@ export class SubcategoryComponent implements OnInit {
 
     // Get the list of all categories
     getListCategories(){    
-        this.categoryService
-            .getCategories()
+        this.apiService
+            .getAll('categories')
             .pipe(map(data => {
                 this.listCategories=data;
                 console.log("Categorias ",this.listCategories);
@@ -100,8 +98,8 @@ export class SubcategoryComponent implements OnInit {
             category_name: '/api/categories/'+this.selectedCategory,
             subcategory: []
           };
-        this.categoryService
-            .getCategoryId(parseInt(category))
+        this.apiService
+            .getId('categories',parseInt(category))
             .pipe(map(data => {
                 this.nuevaCategoria=data;
                 this.enableSubcategoryInput=false;
@@ -115,8 +113,8 @@ export class SubcategoryComponent implements OnInit {
     }
     // Add a new subcategory (post)
     newSubcategory(subcategory:any){
-        this.subcategoryService
-            .postSubcategories(subcategory).pipe(map(data => {this.getCategory(this.selectedCategory);/* this.listSubcategories.push(data); */}))
+        this.apiService
+            .postInTable('subcategories',subcategory).pipe(map(data => {this.getCategory(this.selectedCategory);/* this.listSubcategories.push(data); */}))
             .subscribe({
                 next: function(){console.log('Subcategoria guardada.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},
@@ -129,8 +127,8 @@ export class SubcategoryComponent implements OnInit {
         //let subcategory=new Subcategory(subcategoryName, this.listSubcategories);//****************************************************************** */
         if (subcategoryName!=""){
             let subcategory=new Subcategory(this.IRI_route+this.selectedCategory, subcategoryName);
-            this.subcategoryService
-                .putCategories(id, subcategory).pipe(map(data => {/* this.getListSubcategories() */}))
+            this.apiService
+                .putInTable('subcategories',id, subcategory).pipe(map(data => {/* this.getListSubcategories() */}))
                 .subscribe({
                     next: function(){console.log('Subcategoria actualizada.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -141,8 +139,8 @@ export class SubcategoryComponent implements OnInit {
 
     // Delete a subcategory   
     deleteSubcategory(id:number) {
-        this.subcategoryService
-            .deleteSubcategories(id).pipe(map(data => {this.getCategory(this.selectedCategory);}))
+        this.apiService
+            .deleteFromTable('subcategories',id).pipe(map(data => {this.getCategory(this.selectedCategory);}))
             .subscribe({
                 next: function(){console.log('Subategoria eliminada.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},
