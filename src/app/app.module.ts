@@ -19,14 +19,17 @@ import { LevelComponent } from './level/level.component';
 import { TicketTypeComponent } from './ticket-type/ticket-type.component';
 import { ProviderComponent } from './provider/provider.component';
 import { IonicModule } from '@ionic/angular';
+import { ListaTicketsComponent } from './lista-tickets/lista-tickets.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const appRoutes: Routes = [
-  {path:"", component: AppComponent},
+ // {path:"", component: AppComponent},
   {path:"category", component: CategoryComponent,},
   {path:"category/:id", component: CategoryComponent,},
   {path:"subcategory", component:SubcategoryComponent},
   {path:"subcategory/:id", component:SubcategoryComponent},
   {path:"ticket", component:TicketComponent},
+  {path:"ticket/:id", component:TicketComponent},
   {path:"center", component:CenterComponent},
   {path:"center/:id", component:CenterComponent},
   {path:"user", component:UserComponent},
@@ -42,6 +45,7 @@ const appRoutes: Routes = [
   {path:"ticket-type/:id", component:TicketTypeComponent},
   {path:"provider", component:ProviderComponent},
   {path:"provider/:id", component:ProviderComponent},
+  {path:"", component:ListaTicketsComponent},
 ];
 
 @NgModule({
@@ -57,7 +61,7 @@ const appRoutes: Routes = [
     PriorityComponent, 
     LevelComponent, 
     TicketTypeComponent, 
-    ProviderComponent
+    ProviderComponent, ListaTicketsComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +73,7 @@ const appRoutes: Routes = [
     IonicModule.forRoot()
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

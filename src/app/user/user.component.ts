@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from "../services/httpClientService.service";
+import * as M from 'materialize-css';
 
 @Component({
   selector: 'app-user',
@@ -12,6 +13,7 @@ import { ApiService } from "../services/httpClientService.service";
 export class UserComponent {
 
     titulo="Gestión de usuarios";
+    updatingUser=false;
     nombre_centro="";
     username:string="";
     surname:string="";
@@ -20,23 +22,14 @@ export class UserComponent {
     user_phone:string="";
     dni:string="";
     active:boolean=true;
-    id="";
+    id=0;
     passwordVerify="";
     pass=false;
     selectedCenter="-1";
     listCenters:any;
     listUsers:any;
-   // user=new User(this.username, this.surname, this.user_email, this.password, this.user_phone, this.dni, this.selectedCenter, this.active);
-   /* {
-        "username": "Yulema",
-        "surname": "Benito Masia",
-        "password": "yul",
-        "dni": "20555444Y",
-        "active": true,
-        "userEmail": "yulema@hr.com",
-        "userPhone": "666555222",
-        "idCenter": "/api/centers/1"
-      }*/
+    user:any;
+
     //Injecting service
     constructor(
         public apiService: ApiService, 
@@ -48,6 +41,7 @@ export class UserComponent {
         
         this.getListUsers();
         this.getListCenters();
+        M.updateTextFields();
     }
 
     // Get the list of all the users
@@ -81,60 +75,83 @@ export class UserComponent {
             });
     }
     
-    // Add a new user (post)
-    newUser(){
-        let user=new User(this.username, this.surname, this.password, this.dni, this.active, this.user_email, this.user_phone, '/api/centers/'+this.selectedCenter);
-        if(this.password==this.passwordVerify){
-            this.pass=true;
-        } else {
-            this.pass=false;
-            alert("Los password no coinciden.")}
-        if(this.username != "" && this.surname != "" && this.password != "" && this.dni != "" && this.selectedCenter &&this.pass == true){
-            console.log(user);
-            this.apiService.postInTable('users',user).pipe(map(data => {
-                    this.listUsers.push(data);
-                    this.username="";
-                    this.surname="";
-                    this.user_email="";
-                    this.password="";
-                    this.user_phone="";
-                    this.selectedCenter="-1";
-                    this.dni="";
-                    this.active=true;
-                }))
-                .subscribe({
-                    next: function(){console.log('Usuario guardado.');},
-                    error: function(err){console.log('Ocurrio un error: ', err);},
-                    complete: function(){}
-                });
-        }
+    // Add or update a user (post/put)
+    newUser(id:number){
+       
+            let user=new User(this.username, this.surname, this.password, this.dni, this.active, this.user_email, this.user_phone, '/api/centers/'+this.selectedCenter);
+            if(this.password==this.passwordVerify){
+                this.pass=true;
+            } else {
+                this.pass=false;
+                alert("Los password no coinciden.")}
+            if(this.username != "" && this.surname != "" && this.password != "" && this.dni != "" && this.selectedCenter &&this.pass == true){
+                console.log(user);
+                if (!this.updatingUser){
+                    this.apiService.postInTable('users',user).pipe(map(data => {
+                            this.listUsers.push(data);
+                            this.username="";
+                            this.surname="";
+                            this.user_email="";
+                            this.password="";
+                            this.passwordVerify="";
+                            this.user_phone="";
+                            this.selectedCenter="-1";
+                            this.dni="";
+                            this.active=true;
+                        }))
+                        .subscribe({
+                            next: function(){console.log('Usuario guardado.');},
+                            error: function(err){console.log('Ocurrio un error: ', err);},
+                            complete: function(){}
+                        });
+                } else{
+                    this.apiService.putInTable('users',id,user).pipe(map(data => {
+                        this.listUsers.push(data);
+                        this.id=0;
+                        this.username="";
+                        this.surname="";
+                        this.user_email="";
+                        this.password="";
+                        this.passwordVerify="";
+                        this.user_phone="";
+                        this.selectedCenter="-1";
+                        this.dni="";
+                        this.active=true;
+                        this.updatingUser=false;
+                        this.getListUsers();
+                    }))
+                    .subscribe({
+                        next: function(){console.log('Usuario guardado.');},
+                        error: function(err){console.log('Ocurrio un error: ', err);},
+                        complete: function(){}
+                    });
+                }
+            }
     }
 
     // Update a user  (PUT) 
     updateUser(id:number) {
-        if(this.password==this.passwordVerify){
-            this.pass=true;
-        } else {
-            this.pass=false;
-            alert("Los password no coinciden.")}
-        if(this.username != "" && this.surname != "" && this.password != "" && this.dni != "" && this.selectedCenter &&this.pass == true){
-            let user=new User(this.username, this.surname, this.password, this.dni, this.active, this.user_email, this.user_phone, this.selectedCenter);
-            this.apiService
-                .putInTable('user',id, user).pipe(map(data => {
-                    this.username="";
-                    this.surname="";
-                    this.user_email="";
-                    this.password="";
-                    this.user_phone="";
-                    this.dni="";
-                    this.selectedCenter="-1";
-                    this.active=true;}))
-                .subscribe({
-                    next: function(){console.log('Usuario actualizado.');},
-                    error: function(err){console.log('Ocurrio un error: ', err);},
-                    complete: function(){}
-                });
-        }
+
+        this.apiService.getId('users',id).pipe(map(data=>{
+            this.user=data;
+            console.log('Usuario: ',this.user);
+            this.username=this.user.username;
+            this.surname=this.user.surname;
+            this.user_email=this.user.user_email;
+            this.password=this.user.password;
+            this.passwordVerify=this.user.password;
+            this.user_phone=this.user.user_phone;
+            this.selectedCenter=this.user.id_center.id;
+            this.dni=this.user.dni;
+            this.active=this.user.active;
+            this.id=this.user.id;
+
+            this.updatingUser=true;
+        })).subscribe({
+            next: function(){console.log('Usuario cargado.');},
+            error: function(err){console.log('Ocurrio un error: ', err);},
+            complete: function(){}
+        });
     }
 
 
@@ -149,13 +166,7 @@ export class UserComponent {
             });
     }
 
-    // send the ID of User to Center
-    routeToUser(id:string|null) {
-        this.router.navigate(['/center', id]);
-      }
-
       activeCheck(){
         this.active=!this.active;
       }
-
 }

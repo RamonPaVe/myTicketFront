@@ -1,13 +1,43 @@
 nav{
     top:0px;
-    position:fixed;
-    z-index: 10;
+    /* position:fixed; */
+    z-index: 100;
 }
+.logo{
+width: 160px;
+margin-top:2px;
+}
+
+.btn{
+    z-index:102 !important;
+    position: relative;
+    margin:5px;
+}
+table{
+    z-index: 99;
+    position: relative;
+}
+.logo_fondo:before {
+    content: ' ';
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 100;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.1;
+    background-image: url("http://myticket.com.es/logo_transparent.png") !important;
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: contain;
+}
+
 form{
     padding-top: 10px !important;
 }
 .container{
-    padding-top: 40px;;
+    padding-top: 60px;;
 }
 
 .option_buttons{
@@ -15,10 +45,7 @@ form{
     margin-top: 10px;
     float: right;
 }
-.btn{
-    margin:5px;
-    z-index: 11 !important;
-}
+
 .btn-small{
     margin: 10px;
 }
@@ -37,9 +64,9 @@ form{
 }
 
 .contenedorCategoria, .contenedorPersonalizado{
-    width: 1280px;
+    width: auto;
     height: 71vh;
-    overflow: auto;
+    overflow-y: scroll;
 }
 .switch{
     margin-top: 25px;

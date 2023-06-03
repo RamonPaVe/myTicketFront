@@ -1,0 +1,43 @@
+<table id="ticketList" class="highlight">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ticket tercero</th>
+            <th>Estado</th>
+            <th>Usuario afectado</th>
+            <th>Asunto</th>
+            <th>Tipo</th>
+            <th>Centro</th>
+            
+            <th>Grupo</th>
+            <th>Asignado a</th>
+            
+            <th>F.creación</th>
+            <th>Última modif.</th>
+            <th>nivel</th>
+            <th>prioridad</th>
+            <th>F.resolución</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let ticket of listTickets;let i=index;" (click)="rowSelected(ticket.id)">
+            <td id="ticket_{{ticket.id}}">{{ticket.id}}</td>
+            <td>{{ticket.external_ticket}}</td>
+            <td>{{ticket.id_state.state_name}}</td>
+            <td>{{ticket.affected_user.surname}}, {{ticket.affected_user.username}}</td>
+            <td>{{ticket.summary}}</td>
+            <td>{{ticket.id_ticketType.typeName}}</td>
+            <td>{{ticket.id_center.center_name}}</td>
+            
+            <td>{{ticket.assigned_group.group_name}}</td>
+            <td>{{ticket.assigned_user_id.surname}}, {{ticket.assigned_user_id.username}}</td>
+            
+            <td>{{ticket.creation_date|date: 'dd-MM-Y HH:mm'}} - {{ticket.creationDateAgo}}</td>
+            <td>{{ticket.modification_date|date:'dd-MM-Y HH:mm'}}</td>
+            <td>{{ticket.id_level.level_name}}</td>
+            <td>{{ticket.id_priority.priority_name}}</td>
+            <td>{{ticket.resolution_date|date:'dd-MM-Y HH:mm'}}</td>
+        </tr>
+    </tbody>
+</table>

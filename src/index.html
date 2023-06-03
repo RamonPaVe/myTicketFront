@@ -5,47 +5,42 @@
   <title>MyTicketFront</title>
   <base href="./">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="http://myticket.com.es/favicon.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
 </head>
 <body>
-  <header>
+  <header><div class="logo_fondo">
     <!-- Dropdown Structure -->
-    <ul id="dropdownNew" class="dropdown-content">
-      <li><a href="/ticket">Solicitud</a></li>
-      <li><a href="/ticket">Incidencia</a></li>
-      <li class="divider"></li>
-      <li><a href="/ticket">Rutina</a></li>
-    </ul>
     <ul id="dropdownDates" class="dropdown-content">
-      <li><a href="/category">Categorias</a></li>
-      <li><a href="/subcategory">Subcategorias</a></li>
-      <li><a href="/center">Centros</a></li>
-      <li><a href="/provider">Proveedores</a></li>
+      <li><a href="#/category">Categorias</a></li>
+      <li><a href="#/subcategory">Subcategorias</a></li>
+      <li><a href="#/center"><i class="material-icons left">domain</i>Centros</a></li>
+      <li><a href="#/provider"><i class="material-icons left">face</i>Proveedores</a></li>
       <li class="divider"></li>
-      <li><a href="/ticket-type">Tipos de servicios</a></li>
-      <li><a href="/state">Estados</a></li>
+      <li><a href="#/ticket-type">Tipos de servicios</a></li>
+      <li><a href="#/state">Estados</a></li>
       <li class="divider"></li>
-      <li><a href="/level">Niveles</a></li>
-      <li><a href="/priority">Prioridades</a></li>
+      <li><a href="#/level"><i class="material-icons left">sort</i>Niveles</a></li>
+      <li><a href="#/priority"><i class="material-icons left">show_chart</i>Prioridades</a></li>
       <li class="divider"></li>
-      <li><a href="/group">Grupos</a></li>
-      <li><a href="/user">Usuarios</a></li>
+      <li><a href="#/group"><i class="material-icons left">group</i>Grupos</a></li>
+      <li><a href="#/user"><i class="material-icons left">person</i>Usuarios</a></li>
     </ul>
     <!-- Navbar menu -->
     <nav>
       <div class="nav-wrapper blue">
-        <a href="/" class="brand-logo right">myTicket</a>
+        <a href="#/" class="brand-logo right"><img class="logo" src="http://myticket.com.es/facebook_cover_photo_1.png"></a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
           <!-- Dropdown Trigger -->
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdownNew">Nueva<i class="material-icons right">arrow_drop_down</i></a></li>
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdownDates">Gestión de configuración<i class="material-icons right">arrow_drop_down</i></a></li>
-          <li><a href="/subcategory">subcategoria</a></li>
+          <li><a href="#/ticket">Nuevo</a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdownDates">Gestión de configuración<i class="material-icons right">settings</i></a></li>
+          <li><a href="#/">Tickets</a></li>
         </ul>
       </div>
     </nav>
   </header>
+  </div>
   <app-root></app-root>
 </body>
 <!-- We need jquery first -->  

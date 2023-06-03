@@ -12,7 +12,7 @@ export class ApiService {
   serverApiDev = "http://127.0.0.1:8000/api";
   serverApiProd = "http://b0a4672.online-server.cloud/api";
 
-  serverApi=this.serverApiProd;
+  serverApi=this.serverApiDev;
 
   constructor(private http: HttpClient) {}
   

@@ -89,6 +89,6 @@ export class CategoryComponent implements OnInit{
     // send the ID of Category to Subcategory
     routeToSubcategory(id:string|null) {
         this.router.navigate(['/subcategory', id]);
-      }
+    }
 
 }

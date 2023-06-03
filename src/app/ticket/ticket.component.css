@@ -1,0 +1,14 @@
+.autocomplete-container {
+    height: 80px;
+    overflow: auto;
+    z-index: 20;
+    position: relative;
+}
+
+.ticket-container{
+    z-index: 100;
+}
+
+.btn-ticket{
+    top: -65px;
+}

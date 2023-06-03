@@ -3,38 +3,38 @@
 
     <div class="row">
         <div class="input-field col s5">
-            <input id="username" type="text" class="validate" required [(ngModel)]="username" name="username">
+            <input id="username" type="text" class="validate active" required [(ngModel)]="username" name="username" placeholder=" ">
             <label for="username">Nombre</label>
         </div>
         <div class="input-field col s7">
-            <input id="surname" type="text" class="validate" required [(ngModel)]="surname" name="surname">
+            <input id="surname" type="text" class="validate active" required [(ngModel)]="surname" name="surname"  placeholder="">
             <label for="surname">Apellidos</label>
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s6">
-            <input id="user_email" type="text" class="validate" [(ngModel)]="user_email" name="user_email">
+            <input id="user_email" type="text" class="validate" [(ngModel)]="user_email" name="user_email"  placeholder="">
             <label for="user_email">E-mail</label>
         </div>
         <div class="input-field col s6">
-            <input id="user_phone" type="text" class="validate" [(ngModel)]="user_phone" name="user_phone">
+            <input id="user_phone" type="text" class="validate" [(ngModel)]="user_phone" name="user_phone"  placeholder="">
             <label for="user_phone">Telefono/s</label>
         </div>
     </div>
 
     <div class="row">
-        <div class="input-field col s2">
-            <input id="dni" type="text" class="validate" required [(ngModel)]="dni" name="dni">
-            <label for="dni">DNI</label>
-        </div>
         <form>
             <div class="input-field col s2">
-                <input id="password" type="text" class="validate" required [(ngModel)]="password" name="password">
+                <input id="dni" type="text" class="validate" required [(ngModel)]="dni" name="dni" placeholder="">
+                <label for="dni">DNI</label>
+            </div>
+            <div class="input-field col s2">
+                <input id="password" type="password" class="validate" required [(ngModel)]="password" name="password"  placeholder="">
                 <label for="password">Password</label>
             </div>
             <div class="input-field col s2">
-                <input id="passwordVerify" type="text" class="validate" required [(ngModel)]="passwordVerify" name="passwordVerify">
+                <input id="passwordVerify" type="password" class="validate" required [(ngModel)]="passwordVerify" name="passwordVerify"  placeholder="">
                 <label for="passwordVerify">Repite el password</label>
             </div>
         </form>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <button class="waves-effect waves-light btn-small" (click)="newUser()" onclick="M.toast({html: 'Guardando usuario', classes: 'rounded'})">Nuevo Usuario</button>
+    <button class="btn-small" (click)="newUser(id)" onclick="M.toast({html: 'Guardando usuario', classes: 'rounded'})">Guardar Usuario</button>
 
     <br><br>
     <div class="contenedorPersonalizado">
@@ -63,27 +63,21 @@
                 <tr>
                     <th class="col s3">Nombre</th>
                     <th class="col s6">Apellidos</th>
-                    <th class="col s3">Opciones</th>
+                    <th class="col s3" style="text-align: center;">Opciones</th>
                 </tr>
             </thead>
             <tbody class="row">
                 <tr *ngFor="let user of listUsers;let i=index;">
                     <td class="col s3">
-                        <input  type="text" id="userName_{{i}}" [(ngModel)]="user.username" name="user.username">
+                        <input  type="text" id="userName_{{i}}" [(ngModel)]="user.username" name="user.username" disabled="true">
                     </td>
                     <td class="col s6">
-                        <input  type="text" id="userSurname_{{i}}" [(ngModel)]="user.surname" name="user.surname">
+                        <input  type="text" id="userSurname_{{i}}" [(ngModel)]="user.surname" name="user.surname" disabled="true">
                     </td>
-                    <td class="col s3">
-                        <input type="button" value="Actualizar usuario" class="waves-effect waves-light btn row" 
-                            (click)="updateUser(user.id)">
-                        <br>
-                        <input type="button" value="Editar usuarios" class="waves-effect waves-light btn row" 
-                           >  
-                        <br>
-                        <input type="button" value="Eliminar usuario" class="waves-effect waves-light btn red row" 
-                            (click)="deleteUser(user.id)"
-                            onclick="M.toast({html: 'Eliminando usuario', classes: 'rounded'})">
+                    <td class="col s3" style="text-align: center;">                        
+                        <a class="btn" (click)="updateUser(user.id)"><i class="material-icons center">edit</i></a>
+                        <a class="btn red" (click)="deleteUser(user.id)" 
+                            onclick="M.toast({html: 'Eliminando usuario', classes: 'rounded'})"><i class="material-icons center">delete</i></a>
                     </td>
                 </tr>
             </tbody>

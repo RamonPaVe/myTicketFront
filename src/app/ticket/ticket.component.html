@@ -1,47 +1,41 @@
-<div class="row">
+<div class="row ticket-container">
   <div class="option_buttons">
-    <a class="idTicket btn disabled">Solicitud: 125874</a>
-    <div class="fixed-action-btn">
-      <a class="btn-floating btn green">
-        <i class="large material-icons">add</i>
-      </a>
-      <ul>
-        <li><a class="btn-floating btn green" href="/ticket" value="rutina"><i class="material-icons">loop</i></a></li>
-        <li><a class="btn-floating btn red" href="/ticket" value="incidencia"><i class="material-icons">new_releases</i></a></li>
-        <li><a class="btn-floating btn blue" href="/ticket" value="solicitud"><i class="material-icons">info_outline</i></a></li>
-      </ul>
-    </div>
-    <!-- <a class="btn-floating btn-small btn waves-effect waves-light"><i class="material-icons">add</i></a> -->
-    <a class="waves-effect waves-light btn"><i class="material-icons right">save</i>Guardar</a>
-    <a class="waves-effect waves-light btn"><i class="material-icons right">speaker_notes</i>Añadir notas</a>
-    <a class="waves-effect waves-light btn"><i class="material-icons right">edit</i>Editar</a>
-    <a class="waves-effect waves-light btn amber darken-4"><i class="material-icons right">content_copy</i>Copiar</a>
-    <a class="waves-effect waves-light btn amber darken-4"><i class="material-icons right">join_full</i>Combinar</a>
-    <a class="waves-effect waves-light btn red"><i class="material-icons right">cancel</i>Cancelar</a>
+    <a class="idTicket btn disabled btn-ticket">Solicitud: {{ticketSelected}}</a>
+    <a class="btn btn-ticket" (click)="save(id)"><i class="material-icons right">save</i>Guardar</a>
+    <a class="btn btn-ticket"><i class="material-icons right">speaker_notes</i>Añadir notas</a>
+    <a class="btn btn-ticket"><i class="material-icons right">edit</i>Editar</a>
+    <a class="btn btn-ticket amber darken-4"><i class="material-icons right">content_copy</i>Copiar</a>
+    <a class="btn btn-ticket amber darken-4"><i class="material-icons right">join_full</i>Combinar</a>
+    <a class="btn btn-ticket red"><i class="material-icons right">delete</i>Borrar</a>
     
   </div>
-    <form class="col s12">
+    <form class="col s12 contenedorPersonalizado">
       <fieldset>
         <legend>Detalles del solicitante:</legend>
         <div class="row">
-          <div class="input-field col s2">
-            <input id="first_name" type="text" class="validate">
-            <label for="first_name">Nombre</label>
+          <div class="input-field col s6 l3">
+            <input id="last_name" type="text" class="validate" [formControl]="apellidoControl" (blur)="selecciona()" [(ngModel)]="surname" name="surname" 
+                placeholder="" autocomplete="nope">
+            <label for="last_name">Apellidos, Nombre</label>
           </div>
-          <div class="input-field col s3">
-            <input id="last_name" type="text" class="validate">
-            <label for="last_name">Apellidos</label>
+          <div class="autocomplete-container col s6 l2">
+            <tbody class="autocomplete-content ">
+                <span *ngFor="let usuario of results"   (click)="seleccionarUsuario(usuario)">
+                    {{ displayUsuario(usuario) }} <br>
+                </span><br>
+            </tbody>
           </div>
-          <div class="input-field col s2">
-            <input id="phone_number" type="text" class="validate">
+
+          <div class="input-field col s6 m4 l2">
+            <input id="phone_number" type="text" class="validate" [(ngModel)]="phone_number" name="phone_number" placeholder="">
             <label for="phone_number">Teléfono de contacto</label>
           </div>
-          <div class="input-field col s2">
-            <input id="email" type="email" class="validate">
+          <div class="input-field col s6 m4 l2">
+            <input id="email" type="email" class="validate" [(ngModel)]="email" name="email" placeholder="">
             <label for="email">e-mail</label>
           </div>
-          <div class="input-field col s3" >
-            <select class="browser-default" [(ngModel)]="selectedCenter" name="selectedCenter" (change)="getListCenters()" >
+          <div class="input-field col s12 m4 l3" >
+            <select   [(ngModel)]="selectedCenter" name="selectedCenter" (change)="getListCenters()" >
                 <option value="-1" disabled selected>Elige un centro</option>
                 <option *ngFor="let center of listCenters" [value]="center.id">{{center.center_name}}</option>
             </select>
@@ -51,138 +45,130 @@
       <fieldset>
         <legend>Detalles del servicio:</legend>
         <div class="row">
-          <div class="input-field col s1">
+          <div class="input-field col s12 m6 l2">
             <label class="label">Tipo</label>
-            <select class="browser-default" [(ngModel)]="selectedTycketType" name="selectedTycketType" (change)="getListTicketTypes()" >
+            <select   [(ngModel)]="selectedTycketType" name="selectedTycketType">
                 <option value="-1" disabled selected>Elige tipo</option>
                 <option *ngFor="let ticketType of listTicketTypes" [value]="ticketType.id">{{ticketType.typeName}}</option>
             </select>
             </div>
-            <div class="input-field col s1">
+            <div class="input-field col s12 m6 l2">
+                <label class="label">Estado</label>
+                <select   [(ngModel)]="selectedState" name="selectedState" >
+                    <option value="-1" disabled selected>Elige estado</option>
+                    <option *ngFor="let state of listStates" [value]="state.id">{{state.state_name}}</option>
+                </select>
+            </div>
+            <div class="input-field col s6 l2">
                 <label class="label">Categoria</label>
-                <select class="browser-default" [(ngModel)]="selectedCategory" name="selectedCategory" (change)="getListCategories()" >
+                <select   [(ngModel)]="selectedCategory" name="selectedCategory" (change)="getListCategories()" >
                     <option value="-1" disabled selected>Elige categoria</option>
                     <option *ngFor="let category of listCategories" [value]="category.id">{{category.category_name}}</option>
                 </select>
             </div>
-            <div class="input-field col s2">
+            <div class="input-field col s6 l2">
                 <label class="label">Subategoria</label>
-                <select class="browser-default" [(ngModel)]="selectedSubcategory" name="selectedSubcategory" [disabled]="enableSubcategoryInput">
-                    <option value="-1" disabled selected>Elige subcategoria</option>
+                <select   [(ngModel)]="selectedSubcategory" name="selectedSubcategory" [disabled]="enableSubcategoryInput">
+                    <option value="-1" selected>Ninguna</option>
                     <option *ngFor="let subcategory of listSubcategory.subcategory" [value]="subcategory.id">{{subcategory.subcategory_name}}</option>
                 </select>
             </div>
-            <div class="input-field col s1">
+            <div class="input-field col s6 l2">
                 <label class="label">Nivel</label>
-                <select class="browser-default" [(ngModel)]="selectedLevel" name="selectedLevel" (change)="getListLevels()" >
+                <select   [(ngModel)]="selectedLevel" name="selectedLevel" (change)="getListLevels()" >
                     <option value="-1" disabled selected>Elige nivel</option>
                     <option *ngFor="let level of listaNiveles" [value]="level.id">{{level.level_name}}</option>
                 </select>
             </div>
-            <div class="input-field col s1">
+            <div class="input-field col s6 l2">
                 <label class="label">Prioridad</label>
-                <select class="browser-default" [(ngModel)]="selectedPriority" name="selectedPriority" [disabled]="enablePriorityInput" >
-                    <option value="-1" disabled selected>Elige prioridad</option>
+                <select   [(ngModel)]="selectedPriority" name="selectedPriority" [disabled]="enablePriorityInput" >
+                    <option value="-1" selected>Ninguna</option>
                     <option *ngFor="let priority of listPriorities.id_priority" [value]="priority.id">{{priority.priority_name}}</option>
                 </select>
             </div>
-            <div class="input-field col s2">
-                <label class="label">Grupo</label>
-                <select class="browser-default" [(ngModel)]="selectedGoup" name="selectedGoup" (change)="getListGroups()" >
-                    <option value="-1" disabled selected>Elige grupo</option>
-                    <option *ngFor="let group of listaGrupos" [value]="group.id">{{group.group_name}}</option>
-                </select>
-            </div>
-            <div class="input-field col s2">
-                <label class="label">Técnico asignado</label>
-            <select>
-                <option value="" disabled selected>Elige técnico</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12 m3">
+            <label class="label">Grupo</label>
+            <select   [(ngModel)]="selectedGroup" name="selectedGroup" (change)="getListGroups()" >
+                <option value="-1" disabled selected>Elige grupo</option>
+                <option *ngFor="let group of listaGrupos" [value]="group.id">{{group.group_name}}</option>
             </select>
-            </div>
-           
-
-
-
-
-            <div class="input-field col s2">
-                <label class="label">Proveedor</label>
-                <select class="browser-default" [(ngModel)]="selectedProvider" name="selectedProvider" (change)="getListProviders()" >
-                    <option value="-1" disabled selected>Elige un proveedor</option>
-                    <option *ngFor="let provider of listProviders" [value]="provider.id">{{provider.provider_name}}</option>
-                </select>
-            </div>
-            
-      </div>
-
-      <div class="row">
-        
-
-
-      </div>
-
-
-      <div class="row">
-        <div class="input-field col s11">
-          <input id="summary" type="text" class="validate summary">
-          <label for="sumary">Resumen</label>
         </div>
-        <div class="input-field col s1">
-            <input id="externalTicket" type="text" class="validate">
+        <div class="input-field col s12 m4 l3">
+            <label class="label">Técnico asignado</label>
+            <select   [(ngModel)]="selectedUserGroup" name="selectedUserGroup" [disabled]="enableUserGroupInput">
+                <option value="-1" disabled selected>Elige técnico</option>
+                <option *ngFor="let user of listUsersGroup.users" [value]="user.id">{{user.surname}}, {{user.username}}</option>
+            </select>
+        </div>
+        <div class="input-field col s12 m2 l3">
+            <input id="externalTicket" type="text" class="validate" placeholder="" [(ngModel)]="externalTicket" name="externalTicket">
             <label for="externalTicket">Ticket Externo</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <label class="label">Proveedor</label>
+            <select   [(ngModel)]="selectedProvider" name="selectedProvider">
+                <option value="-1" selected>Ninguno</option>
+                <option *ngFor="let provider of listProviders" [value]="provider.id">{{provider.provider_name}}</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="summary" type="text" class="validate summary" placeholder="" [(ngModel)]="summary" name="sumary">
+          <label for="sumary">Resumen</label>
         </div>
       </div>
       <fieldset class="descripcion">
         <legend>Descripción</legend>
         <div class="row field-description">
             <div class="input-field col s12 field-description">
-            <textarea id="description" class="materialize-textarea field-description"></textarea>
+            <textarea id="description" class="materialize-textarea field-description" [(ngModel)]="description" name="description"></textarea>
             </div>
         </div>
       </fieldset>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="resolution" class="materialize-textarea"></textarea>
+          <textarea id="resolution" class="materialize-textarea" [(ngModel)]="resolution" name="resolution" placeholder=""></textarea>
             <label for="resolution">Resolución</label>
         </div>
       </div>
 
-
-
-
       <div class="row">
-        <div class="col s4">
+        <div class="col s12 m6 l4">
           Fecha modificación:
           <div class="input-field inline">
-            <input disabled id="modificationDate" type="datetime" class="validate">
+            <input disabled id="modificationDate" type="datetime" class="validate" [(ngModel)]="modificationDate" name="modificationDate">
           </div>
         </div>
-        <div class="col s4">
+        <div class="col s12 m6 l4">
           Fecha de resolución:
           <div class="input-field inline">
-            <input disabled id="resolutionDate" type="datetime" class="validate">
+            <input disabled id="resolutionDate" type="datetime" class="validate" [(ngModel)]="resolutionDate" name="resolutionDate">
           </div>
         </div>
-        <div class="col s4">
+        <div class="col s12 m6 l4">
           Fecha de cierre:
           <div class="input-field inline">
-            <input disabled id="closeDate" type="datetime" class="validate">
+            <input disabled id="closeDate" type="datetime" class="validate" [(ngModel)]="closeDate" name="closeDate">
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col s6">
+        <div class="col s12 m6">
           Creado por:
           <div class="input-field inline">
-            <input disabled id="creatorUser" type="text" class="validate">
+            <input disabled id="creatorUser" type="text" class="validate" [(ngModel)]="creatorUser" name="creatorUser">
           </div>
         </div>
-        <div class="col s6">
+        <div class="col s12 m6">
           Fecha de creación:
           <div class="input-field inline">
-            <input disabled id="creationDate" type="datetime" class="validate">
+            <input disabled id="creationDate" type="datetime" class="validate" [(ngModel)]="creationDate" name="creationDate">
           </div>
         </div>
       </div>

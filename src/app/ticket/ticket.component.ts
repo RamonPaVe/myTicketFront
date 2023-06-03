@@ -2,23 +2,35 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { ApiService } from "../services/httpClientService.service";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
+import { FormControl } from "@angular/forms";
+import * as M from 'materialize-css';
+import 'jquery';
+import * as $ from 'jquery';
+import { Ticket } from "../models/ticket.model";
 
+interface UserList {
+    id: number;
+    name: string;
+    surname: string;
+  }
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.css']
 })
+
+
 export class TicketComponent implements OnInit{
 
     listaCategorias:any;
 
     //Injecting services
     constructor(
-        private changeDetector:ChangeDetectorRef,
         public apiService: ApiService, 
         private route:ActivatedRoute,
         private router:Router){}
 
+        apellidoControl = new FormControl();
     listCategories:any;
         selectedCategory="-1";
         enableSubcategoryInput=true;
@@ -30,7 +42,7 @@ export class TicketComponent implements OnInit{
     listCenters:any;
         selectedCenter="-1";
     listaGrupos:any;
-        selectedGoup="-1";
+        selectedGroup="-1";
     listaNiveles:any;
         selectedLevel="-1";
         enablePriorityInput=true;
@@ -47,21 +59,70 @@ export class TicketComponent implements OnInit{
     listTicketTypes:any;
         selectedTycketType="-1";
     listUsers:any;
+        surname: string;
+        selectedUser="-1";
+        users: UserList [];
+
+        results: UserList[];
+       // user:UserList;
+    listUsersGroup:any= {
+        group_name: "/api/groups/"+this.selectedGroup,
+        users: []
+    };
+        selectedUserGroup="-1";
+        enableUserGroupInput=true;
+
+        phone_number="";
+        email="";
+
+        ticketId:string|null; //valor que se pasa en la ruta;
+        ticketSelected='0';
+
+        newUpdateTicket: any = {};
+        updateTicket=false;
+
+        summary:string="";
+        description:string="";
+        resolution:string="";
+        modificationDate:string="";
+        resolutionDate:string="";
+        closeDate:string="";
+        creatorUserId:string="9";// TODO: cambiar cuando se conecten por usuario
+        creatorUser:string="";
+        externalTicket:string="";   
+        creationDate:string="";
+        affectedUser:string="";
+        id:number;
 
 
-
-    
-    
 
     ngOnInit() {
-       this.getListCenters();
-       this.getListCategories();
-       this.getListGroups();
-       this.getListLevels();
-       this.getListPriorities();
-       this.getListProviders();
-       this.getListStates();
-       this.getListTicketTypes();       
+        
+
+        M.updateTextFields(); 
+        this.apellidoControl.valueChanges.subscribe(value => {
+            if (value && value.length >= 3) {
+            this.results = this.filterUsuarios(value);
+            } else {
+            this.results = [];
+            }
+        });
+        this.getListUsers();
+        this.getListCenters();
+        this.getListTicketTypes();
+        this.getListStates();
+        this.getListCategories();
+        this.getListLevels();
+        this.getListGroups();
+        this.getListProviders();
+
+        this.ticketId=this.route.snapshot.paramMap.get("id");
+        this.ticketSelected=this.ticketId !== null ? this.ticketId : '0';
+
+        if(this.ticketSelected>'0'){
+                this.searchTicket(this.ticketSelected);
+        } 
+               
     }
 
     // Get the list of all categories
@@ -73,11 +134,11 @@ export class TicketComponent implements OnInit{
             .pipe(map(data => {
                 this.listCategories=data;
                 console.log("Categorias ",this.listCategories);
-                // this.changeDetector.detectChanges();
                 if (this.selectedCategory!="-1"){
                     this.getSubcategoryByCategoryId(this.selectedCategory);
                     this.enableSubcategoryInput=false;
                 }
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Categorias obtenidas.');},
@@ -97,9 +158,8 @@ export class TicketComponent implements OnInit{
                 .getId('categories',parseInt(category))
                 .pipe(map(data => {
                     this.listSubcategory=data;
-                    
                     console.log("Categoria ",category,' ',this.listSubcategory);
-                    
+                    setTimeout(() => M.AutoInit(), 10);
                 }))
                 .subscribe({
                     next: function(){console.log('Categoria obtenida.');},
@@ -116,7 +176,7 @@ export class TicketComponent implements OnInit{
             .pipe(map(data => {
                 this.listCenters=data;
                 console.log("Centers: ",this.listCenters);
-                // this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Centros obtenidos.');},
@@ -133,6 +193,11 @@ export class TicketComponent implements OnInit{
                 this.listaGrupos=data;
                 console.log("Grupos: ",this.listaGrupos);
                 // this.changeDetector.detectChanges();
+                if (this.selectedGroup!="-1"){
+                    this.getListUsersByGroup(this.selectedGroup);
+                    this.enableUserGroupInput=false;
+                }
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Grupos obtenidos.');},
@@ -141,6 +206,27 @@ export class TicketComponent implements OnInit{
             });
     }
 
+    getListUsersByGroup(group:string){
+        console.log(group);
+        this.listUsersGroup = {
+            group_name: '/api/groups/'+this.selectedGroup,
+            users: []
+          };
+        this.apiService
+            .getId('groups',parseInt(group))
+            .pipe(map(data => {
+                this.listUsersGroup=data;
+                console.log("Usuarios del grupo ",group,': ',this.listUsersGroup);
+                setTimeout(() => M.AutoInit(), 10);
+            }))
+            .subscribe({
+                next: function(){console.log('Usuarios del grupo obtenidos.');},
+                error: function(err){console.log('Ocurrio un error: ', err);},
+                complete: function(){}
+            });
+
+
+    }
     // Get the list of all levels
     getListLevels(){  
         this.enablePriorityInput=true; 
@@ -155,29 +241,13 @@ export class TicketComponent implements OnInit{
                     this.getPriorityByLevelId(this.selectedLevel);
                     this.enablePriorityInput=false;
                 }
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Niveles obtenidos.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},
                 complete: function(){}
             });
-    }
-
-    // Get the list of all priorities
-    getListPriorities(){    
-        this.apiService
-            .getPriorities()
-            .pipe(map(data => {
-                this.listPriorities=data;
-                console.log("Prioridades: ",this.listPriorities);
-                // this.changeDetector.detectChanges();
-                
-            }))
-            .subscribe({
-                next: function(){console.log('Prioridades obtenidas.');},
-                error: function(err){console.log('Ocurrio un error: ', err);},
-                complete: function(){}
-            });  
     }
 
     // Get the list of all the providers
@@ -187,7 +257,7 @@ export class TicketComponent implements OnInit{
             .pipe(map(data => {
                 this.listProviders=data;
                 console.log("Proveedores: ",this.listProviders);
-                // this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Proveedores obtenidos.');},
@@ -203,7 +273,7 @@ export class TicketComponent implements OnInit{
             .pipe(map(data => {
                 this.listStates=data;
                 console.log("Estados: ",this.listStates);
-                // this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Estados obtenidos.');},
@@ -219,7 +289,7 @@ export class TicketComponent implements OnInit{
             .pipe(map(data => {
                 this.listTicketTypes=data;
                 console.log("Tipos de servicio: ",this.listTicketTypes);
-                // this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Tipos de servicio obtenidos.');},
@@ -235,7 +305,7 @@ export class TicketComponent implements OnInit{
             .pipe(map(data => {
                 this.listUsers=data;
                 console.log("Usuarios: ",this.listUsers);
-                // this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Usuarios obtenidos.');},
@@ -258,21 +328,190 @@ export class TicketComponent implements OnInit{
                 this.listPriorities=data;
                 this.enablePriorityInput=false;
                 console.log("Level: ",level,' ',this.listPriorities);
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Nivel obtenido.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},
                 complete: function(){}
             });
-        
-
-
-
-
-
     }
 
+    filterUsuarios(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        return this.listUsers.filter((user: { surname: string; }) =>
+        user.surname.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayUsuario(usuario: any): string {
+        return usuario ? `${usuario.surname}, ${usuario.username}` : '';
+  }
+
+  seleccionarUsuario(usuario: any) {
+        // Realiza alguna acción con el usuario seleccionado, por ejemplo:
+        console.log('usuario seleccionado:',usuario);
+        //this.user=usuario;
+       // console.log('user seleccionado:',this.user);
+        this.surname=usuario.surname + ', ' + usuario.username;
+        this.phone_number=usuario.user_phone;
+        this.email=usuario.user_email;
+        this.selectedCenter=usuario.id_center.id;
+        this.affectedUser=usuario.id;
+        console.log(this.affectedUser);
+  }
+
+  comprobarValorIngresado(valor: string): boolean {
+        const valorIngresado = valor.toLowerCase();
+        const usuarioEncontrado = this.users.find(usuario =>
+        usuario.surname.toLowerCase() === valorIngresado
+        );
+        console.log(this.results);
+        return usuarioEncontrado !== undefined;
+        
+  }
+
+  searchTicket(id: string){
+        console.log('ticket seleccionado:',id);
+        this.apiService
+            .getId('tickets',parseInt(id))
+            .pipe(map(data => {
+                this.newUpdateTicket=data;
+                console.log("ticket ",id,':',this.newUpdateTicket);
+                this.updateTicket=true;
+                this.id=parseInt(id);
+                this.affectedUser=this.newUpdateTicket.affected_user.id;
+                this.surname=this.newUpdateTicket.affected_user.surname+', '+this.newUpdateTicket.affected_user.username;
+                this.phone_number=this.newUpdateTicket.affected_user_phone;
+                this.email=this.newUpdateTicket.affected_user_email;
+                this.selectedCenter=this.newUpdateTicket.id_center.id;
+                this.selectedTycketType=this.newUpdateTicket.id_ticketType.id;
+                this.selectedState=this.newUpdateTicket.id_state.id;
+                this.selectedCategory=this.newUpdateTicket.id_category.id;
+                this.getSubcategoryByCategoryId(this.selectedCategory);
+                this.enableSubcategoryInput=false;
+                try {
+                    this.selectedSubcategory=this.newUpdateTicket.id_subcategory.id;
+                } catch (error) {
+                    this.selectedSubcategory='-1';
+                }
+                this.selectedLevel=this.newUpdateTicket.id_level.id;
+                this.getPriorityByLevelId(this.selectedLevel);
+                this.enablePriorityInput=false;
+                try {
+                    this.selectedPriority=this.newUpdateTicket.id_priority.id;
+                } catch (error) {
+                    this.selectedPriority='-1';
+                }
+                this.selectedGroup=this.newUpdateTicket.assigned_group.id;
+                this.getListUsersByGroup(this.selectedGroup);
+                this.enableUserGroupInput=false;
+                try {
+                    this.selectedUserGroup=this.newUpdateTicket.assigned_user_id.id;
+                } catch (error) {
+                    this.selectedUserGroup='-1';
+                }
+                try {
+                    this.selectedProvider=this.newUpdateTicket.id_provider.id;
+                } catch (error) {
+                    this.selectedProvider='-1';
+                }
+                this.summary=this.newUpdateTicket.summary;
+                this.description=this.newUpdateTicket.description;
+                this.resolution=this.newUpdateTicket.resolution;
+                this.modificationDate=this.newUpdateTicket.modificationDate;
+                this.resolutionDate=this.newUpdateTicket.resolutionDate;
+                this.closeDate=this.newUpdateTicket.close_date;
+                this.creatorUser=this.newUpdateTicket.creator_user_id.surname+', '+this.newUpdateTicket.creator_user_id.username;
+                this.externalTicket=this.newUpdateTicket.external_ticket;
+                this.creationDate=this.newUpdateTicket.creation_date;
+
+                // This make the materialize.css fields to refresh
+                setTimeout(() => M.AutoInit(), 10);
+                setTimeout(() => M.textareaAutoResize($('#description')), 10);
+                setTimeout(() => M.textareaAutoResize($('#resolution')), 10);
+
+                /* aqui van las notas */
+
+            }))
+            .subscribe({
+                next: function(){console.log('ticket obtenido.');},
+                error: function(err){console.log('Ocurrio un error: ', err);},
+                complete: function(){}
+            });
 
 
 
+
+
+
+  }
+
+  selecciona(){
+       
+    
+  }
+
+  returnCorrectValueField(field:string,selection:string){
+        let iri_field='/api/'+field+'/';
+        let valueField: string |null = null;
+        if (selection=='-1'){
+            valueField=null;
+        } else {
+            valueField=iri_field+selection;
+        }
+        return valueField;
+  }
+
+
+  save(id:number){
+        if(!this.updateTicket){  //new ticket
+            let ticket=new Ticket('/api/users/'+this.affectedUser, this.phone_number, this.email, '/api/centers/'+this.selectedCenter,
+                '/api/ticket_types/'+this.selectedTycketType, '/api/states/'+this.selectedState, '/api/categories/'+this.selectedCategory, 
+                this.returnCorrectValueField('subcategories',this.selectedSubcategory), '/api/levels/'+this.selectedLevel,
+                this.returnCorrectValueField('priorities',this.selectedPriority), '/api/groups/'+this.selectedGroup,
+                this.returnCorrectValueField('users',this.selectedUserGroup), this.returnCorrectValueField('providers',this.selectedProvider),
+                this.summary, this.externalTicket, this.description, this.resolution,'/api/users/'+this.creatorUserId,
+                new Date()/*creation date */, null, null, null, []);
+
+            this.apiService.postInTable('tickets',ticket).pipe(map(data => {
+                this.routeToTicket();
+            }))
+            .subscribe({
+                next: function(){console.log('Ticket guardado.');},
+                error: function(err){console.log('Ocurrio un error: ', err);},
+                complete: function(){}
+            });
+        } else{ //update ticket
+            let resDate:Date;
+            if (this.resolution.length>0 && this.resolutionDate==""){
+                resDate=new Date();
+            }else {
+                resDate=new Date(this.resolutionDate);
+            }
+            let ticket=new Ticket('/api/users/'+this.affectedUser, this.phone_number, this.email, '/api/centers/'+this.selectedCenter,
+                '/api/ticket_types/'+this.selectedTycketType, '/api/states/'+this.selectedState, '/api/categories/'+this.selectedCategory, 
+                this.returnCorrectValueField('subcategories',this.selectedSubcategory), '/api/levels/'+this.selectedLevel,
+                this.returnCorrectValueField('priorities',this.selectedPriority), '/api/groups/'+this.selectedGroup,
+                this.returnCorrectValueField('users',this.selectedUserGroup), this.returnCorrectValueField('providers',this.selectedProvider),
+                this.summary, this.externalTicket, this.description, this.resolution,'/api/users/'+this.creatorUserId,
+                new Date(this.creationDate), new Date()/*Modification Date is now*/,resDate, null, []);
+            this.apiService.putInTable('tickets',id,ticket).pipe(map(data => {
+                this.routeToTicket();              
+            }))
+            .subscribe({
+                next: function(){console.log('Ticket actualizado.');},
+                error: function(err){console.log('Ocurrio un error: ', err);},
+                complete: function(){}
+            });
+
+
+        }
+  
+  }
+
+  // send the ID of Category to Subcategory
+  routeToTicket() {
+    this.router.navigate(['/']);
+}
 }
