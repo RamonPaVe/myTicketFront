@@ -2,3 +2,19 @@
     z-index: 20;
     position: relative;
 }
+
+.container {
+    width: 100vw;
+    height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .usersContainer {
+    flex: 1;
+    overflow: auto;
+  }
+  .usersEditContaine1r {
+    flex: 1;
+    overflow: auto;
+  }

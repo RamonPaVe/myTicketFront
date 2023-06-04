@@ -1,12 +1,14 @@
 <div class="container">
     <h3 class="center">{{titulo}}</h3>
 
+
+    <div class="usersEditContainer">
     <div class="row">
-        <div class="input-field col s5">
+        <div class="input-field col s6">
             <input id="username" type="text" class="validate active" required [(ngModel)]="username" name="username" placeholder=" ">
             <label for="username">Nombre</label>
         </div>
-        <div class="input-field col s7">
+        <div class="input-field col s6">
             <input id="surname" type="text" class="validate active" required [(ngModel)]="surname" name="surname"  placeholder="">
             <label for="surname">Apellidos</label>
         </div>
@@ -53,11 +55,11 @@
             </label>
         </div>
     </div>
+</div>
 
-    <button class="btn-small" (click)="newUser(id)" onclick="M.toast({html: 'Guardando usuario', classes: 'rounded'})">Guardar Usuario</button>
+<button class="btn-small" (click)="newUser(id)" onclick="M.toast({html: 'Guardando usuario', classes: 'rounded'})">Guardar Usuario</button>
 
-    <br><br>
-    <div class="contenedorPersonalizado">
+    <div class="usersContainer">
         <table class="highlight responsive-table">
             <thead class="row">
                 <tr>

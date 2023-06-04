@@ -428,6 +428,7 @@ export class TicketComponent implements OnInit{
 
                 // This make the materialize.css fields to refresh
                 setTimeout(() => M.AutoInit(), 10);
+                setTimeout(() => M.updateTextFields(), 10);
                 setTimeout(() => M.textareaAutoResize($('#description')), 10);
                 setTimeout(() => M.textareaAutoResize($('#resolution')), 10);
 
@@ -475,7 +476,7 @@ export class TicketComponent implements OnInit{
                 new Date()/*creation date */, null, null, null, []);
 
             this.apiService.postInTable('tickets',ticket).pipe(map(data => {
-                this.routeToTicket();
+                
             }))
             .subscribe({
                 next: function(){console.log('Ticket guardado.');},
@@ -484,7 +485,7 @@ export class TicketComponent implements OnInit{
             });
         } else{ //update ticket
             let resDate:Date;
-            if (this.resolution.length>0 && this.resolutionDate==""){
+            if (this.resolution.length>0 && this.resolutionDate==undefined){
                 resDate=new Date();
             }else {
                 resDate=new Date(this.resolutionDate);
@@ -495,9 +496,9 @@ export class TicketComponent implements OnInit{
                 this.returnCorrectValueField('priorities',this.selectedPriority), '/api/groups/'+this.selectedGroup,
                 this.returnCorrectValueField('users',this.selectedUserGroup), this.returnCorrectValueField('providers',this.selectedProvider),
                 this.summary, this.externalTicket, this.description, this.resolution,'/api/users/'+this.creatorUserId,
-                new Date(this.creationDate), new Date()/*Modification Date is now*/,resDate, null, []);
+                new Date(this.creationDate), new Date()/*Modification Date is now*/,resDate /*Resolution date */, null, []);
             this.apiService.putInTable('tickets',id,ticket).pipe(map(data => {
-                this.routeToTicket();              
+                              
             }))
             .subscribe({
                 next: function(){console.log('Ticket actualizado.');},

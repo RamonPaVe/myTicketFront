@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Provider } from "../models/provider.model";
 import { map } from "rxjs/internal/operators/map";
 import { ApiService } from "../services/httpClientService.service";
+import * as M from 'materialize-css';
 
 @Component({
   selector: 'app-provider',
@@ -31,6 +32,7 @@ export class ProviderComponent implements OnInit{
             .pipe(map(data => {
                 this.listProviders=data;
                 console.log("Proveedores: ",this.listProviders);
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Proveedores obtenidos.');},

@@ -64,7 +64,7 @@ export class GroupComponent implements OnInit{
         if (groupName!=""){
             let group=new Group(groupName);
             this.apiService
-                .putInTable('group',id, group).pipe(map(data => {this.nombre_grupo=""}))
+                .putInTable('groups',id, group).pipe(map(data => {this.nombre_grupo=""}))
                 .subscribe({
                     next: function(){console.log('Grupo actualizado.');},
                     error: function(err){console.log('Ocurrio un error: ', err);},
@@ -77,7 +77,7 @@ export class GroupComponent implements OnInit{
     // Delete a group   
     deleteGroup(id:number) {
         this.apiService
-            .deleteFromTable('group',id).pipe(map(data => {this.listaGrupos = this.listaGrupos.filter( (group: { id: number; }) => group.id != id);}))
+            .deleteFromTable('groups',id).pipe(map(data => {this.listaGrupos = this.listaGrupos.filter( (group: { id: number; }) => group.id != id);}))
             .subscribe({
                 next: function(){console.log('Grupo eliminado.');},
                 error: function(err){console.log('Ocurrio un error: ', err);},
@@ -87,7 +87,7 @@ export class GroupComponent implements OnInit{
 
     // send the ID of group to users
     routeToUser(id:string|null) {
-        this.router.navigate(['/user', id]);
+        this.router.navigate(['/editGroups', id]);
       }
 
 }

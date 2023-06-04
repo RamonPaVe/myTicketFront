@@ -14,8 +14,8 @@
         <legend>Detalles del solicitante:</legend>
         <div class="row">
           <div class="input-field col s6 l3">
-            <input id="last_name" type="text" class="validate" [formControl]="apellidoControl" (blur)="selecciona()" [(ngModel)]="surname" name="surname" 
-                placeholder="" autocomplete="nope">
+            <input id="last_name" type="text" class="validate" [formControl]="apellidoControl" (blur)="selecciona()" 
+                [(ngModel)]="surname" name="surname" autocomplete="nope">
             <label for="last_name">Apellidos, Nombre</label>
           </div>
           <div class="autocomplete-container col s6 l2">
@@ -27,11 +27,11 @@
           </div>
 
           <div class="input-field col s6 m4 l2">
-            <input id="phone_number" type="text" class="validate" [(ngModel)]="phone_number" name="phone_number" placeholder="">
+            <input id="phone_number" type="text" class="validate" [(ngModel)]="phone_number" name="phone_number" >
             <label for="phone_number">Teléfono de contacto</label>
           </div>
           <div class="input-field col s6 m4 l2">
-            <input id="email" type="email" class="validate" [(ngModel)]="email" name="email" placeholder="">
+            <input id="email" type="email" class="validate" [(ngModel)]="email" name="email" >
             <label for="email">e-mail</label>
           </div>
           <div class="input-field col s12 m4 l3" >
@@ -105,7 +105,7 @@
             </select>
         </div>
         <div class="input-field col s12 m2 l3">
-            <input id="externalTicket" type="text" class="validate" placeholder="" [(ngModel)]="externalTicket" name="externalTicket">
+            <input id="externalTicket" type="text" class="validate" [(ngModel)]="externalTicket" name="externalTicket">
             <label for="externalTicket">Ticket Externo</label>
         </div>
         <div class="input-field col s12 m3 l3">
@@ -119,7 +119,7 @@
 
       <div class="row">
         <div class="input-field col s12">
-          <input id="summary" type="text" class="validate summary" placeholder="" [(ngModel)]="summary" name="sumary">
+          <input id="summary" type="text" class="validate summary" [(ngModel)]="summary" name="sumary">
           <label for="sumary">Resumen</label>
         </div>
       </div>
@@ -133,7 +133,7 @@
       </fieldset>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="resolution" class="materialize-textarea" [(ngModel)]="resolution" name="resolution" placeholder=""></textarea>
+          <textarea id="resolution" class="materialize-textarea" [(ngModel)]="resolution" name="resolution"></textarea>
             <label for="resolution">Resolución</label>
         </div>
       </div>

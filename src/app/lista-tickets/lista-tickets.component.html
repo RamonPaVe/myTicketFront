@@ -7,16 +7,14 @@
             <th>Usuario afectado</th>
             <th>Asunto</th>
             <th>Tipo</th>
-            <th>Centro</th>
-            
+            <th>Centro</th>     
             <th>Grupo</th>
-            <th>Asignado a</th>
-            
+            <th>Asignado a</th>    
             <th>F.creación</th>
             <th>Última modif.</th>
+            <th>F.resolución</th>
             <th>nivel</th>
             <th>prioridad</th>
-            <th>F.resolución</th>
         </tr>
     </thead>
 
@@ -29,15 +27,13 @@
             <td>{{ticket.summary}}</td>
             <td>{{ticket.id_ticketType.typeName}}</td>
             <td>{{ticket.id_center.center_name}}</td>
-            
             <td>{{ticket.assigned_group.group_name}}</td>
-            <td>{{ticket.assigned_user_id.surname}}, {{ticket.assigned_user_id.username}}</td>
-            
+            <td>{{ticket.assigned_user_id.surname}}, {{ticket.assigned_user_id.username}}</td> 
             <td>{{ticket.creation_date|date: 'dd-MM-Y HH:mm'}} - {{ticket.creationDateAgo}}</td>
             <td>{{ticket.modification_date|date:'dd-MM-Y HH:mm'}}</td>
+            <td>{{ticket.resolution_date|date:'dd-MM-Y HH:mm'}}</td>
             <td>{{ticket.id_level.level_name}}</td>
             <td>{{ticket.id_priority.priority_name}}</td>
-            <td>{{ticket.resolution_date|date:'dd-MM-Y HH:mm'}}</td>
         </tr>
     </tbody>
 </table>

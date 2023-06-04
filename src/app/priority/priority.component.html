@@ -2,9 +2,9 @@
     <h3 class="center">{{titulo}}</h3>
         
     <div class="input-field col s2" >
-        <select class="browser-default" [(ngModel)]="selectedLevel" name="selectedLevel" (change)="getLevel(selectedLevel)" >
+        <select [(ngModel)]="selectedLevel" name="selectedLevel" (change)="getLevel(selectedLevel)" >
             <option value="-1" disabled selected>Elige un nivel para crear/editar prioridades</option>
-            <option *ngFor="let level of listLevels" [value]="level.id">{{level.id}}-{{level.level_name}}</option>
+            <option *ngFor="let level of listLevels" [value]="level.id">{{level.level_name}}</option>
         </select>
     </div>
     <br>
@@ -14,6 +14,7 @@
     </div>
     <button class="btn" (click)="addPriority()" onclick="M.toast({html: 'Guardando prioridad', classes: 'rounded'})">Agregar Prioridad</button>
     <br>
+    <div class="priorityContainer">
         <h4>Prioridades:</h4>
             <div class="form-group row" *ngFor="let priority of nuevoNivel.id_priority;let i=index;"> 
                 <input class="col s6" type="text" id="priorityName_{{i}}" [(ngModel)]="priority.priority_name" name="priority.priority_name">
@@ -22,5 +23,6 @@
                 <button class="btn col s1" (click)="deletePriority(priority.id)" 
                     onclick="M.toast({html: 'Prioridad eliminada', classes: 'rounded'})">Eliminar</button>
             </div>
+    </div>
 </div>  
 

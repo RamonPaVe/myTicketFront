@@ -3,6 +3,7 @@ import { ApiService } from "../services/httpClientService.service";
 import { map } from "rxjs/internal/operators/map";
 import { Subcategory } from '../models/subcategory.model';
 import { ActivatedRoute } from '@angular/router';
+import * as M from 'materialize-css';
 
 @Component({
   selector: 'app-subcategory',
@@ -38,7 +39,7 @@ export class SubcategoryComponent implements OnInit {
     
     //--------------------------------------------------------------------------------------------
 
-    categorias: any[];
+    
 
     nuevaCategoria: any = {
       category_name: this.IRI_route+this.selectedCategory,
@@ -51,7 +52,7 @@ export class SubcategoryComponent implements OnInit {
     
       addSubcategory() {
         if (this.nuevaSubcategoria.subcategory_name!=""){
-            this.nuevaCategoria.category_name = this.IRI_route+this.selectedCategory;
+            this.nuevaCategoria.category_name = "/api/categories/"+this.selectedCategory;
             let subcategory=new Subcategory(this.nuevaCategoria.category_name, this.nuevaSubcategoria.subcategory_name);
             this.newSubcategory(subcategory);
         }
@@ -66,7 +67,7 @@ export class SubcategoryComponent implements OnInit {
             .pipe(map(data => {
                 this.listSubcategories=data;
                 console.log("Subcategorias ",this.listSubcategories);
-                
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Subcategorias obtenidas.');},
@@ -83,7 +84,7 @@ export class SubcategoryComponent implements OnInit {
             .pipe(map(data => {
                 this.listCategories=data;
                 console.log("Categorias ",this.listCategories);
-                this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Categorias obtenidas.');},
@@ -104,6 +105,7 @@ export class SubcategoryComponent implements OnInit {
                 this.nuevaCategoria=data;
                 this.enableSubcategoryInput=false;
                 console.log("Categoria ",category,' ',this.nuevaCategoria);
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Categoria obtenida.');},

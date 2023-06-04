@@ -73,6 +73,24 @@ export class ApiService {
         })
       );}
 
+      getUsers(){
+        console.log('(global)Solicitando usuarios ordenados...');
+        return this.http.get(`${this.serverApi}/users.json`)
+        .pipe(map((response: any) => {
+                const sortedResult = response.sort((a: { surname: string; }, b: { surname: string; }) => {
+                    // Comparar los campos 'campoDeseado' de a y b
+                    if (a.surname < b.surname) {
+                      return -1; // a debe aparecer antes que b
+                    } else if (a.surname > b.surname) {
+                      return 1; // a debe aparecer después de b
+                    } else {
+                      return 0; // a y b tienen el mismo valor en el campo deseado
+                    }
+                  });
+                  return sortedResult;
+            })
+          );}
+
 
   // POST --------------------------------------------------------------------------
   postInTable(table:string, tableEntity: any) {

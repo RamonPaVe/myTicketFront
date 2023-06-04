@@ -5,3 +5,14 @@
     z-index: 20;
     position: relative;
 }
+
+.container {
+    height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .subcategoryContainer {
+    flex: 1;
+    overflow: auto;
+  }

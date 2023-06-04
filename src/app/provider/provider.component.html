@@ -12,11 +12,11 @@
             <input id="telefono_proveedor" type="text" class="validate" [(ngModel)]="telefono_proveedor" name="telefono_proveedor">
             <label for="telefono_proveedor">Telefono</label>
         </div>
-        <button class="waves-effect waves-light btn-small" (click)="newTicketType()" 
+        <button class="btn-small" (click)="newTicketType()" 
             onclick="M.toast({html: 'Guardando proveedor', classes: 'rounded'})">Nuevo proveedor</button>
     
     <br><br>
-    <div class="contenedorPersonalizado">
+    <div class="providerContainer">
         <table class="highlight responsive-table">
             <thead class="row">
                 <tr>
@@ -29,21 +29,21 @@
             <tbody class="row">
                 <tr *ngFor="let provider of listProviders;let i=index;">
                     <td class="col s3">
-                        <input  type="text" id="providerName_{{i}}" [(ngModel)]="provider.providerName" name="provider.providerName">
+                        <input  type="text" id="providerName_{{i}}" [(ngModel)]="provider.provider_name" name="provider.provider_name">
                     </td>
                     <td class="col s3">
-                        <input  type="text" id="providerEmail_{{i}}" [(ngModel)]="provider.providerEmail" name="provider.providerEmail">
+                        <input  type="text" id="providerEmail_{{i}}" [(ngModel)]="provider.provider_email" name="provider.provider_email">
                     </td>
                     <td class="col s3">
-                        <input  type="text" id="providerPhone_{{i}}" [(ngModel)]="provider.providerPhone" name="provider.providerPhone">
+                        <input  type="text" id="providerPhone_{{i}}" [(ngModel)]="provider.provider_phone" name="provider.provider_phone">
                     </td>
   
                     <td class="col s3">
-                        <input type="button" value="Actualizar tipo" class="waves-effect waves-light btn row" 
-                            (click)="updateProvider(provider.id, provider.providerName, provider.providerEmail, provider.providerPhone)"
+                        <input type="button" value="Actualizar proveedor" class="waves-effect waves-light btn row" 
+                            (click)="updateProvider(provider.id, provider.provider_name, provider.provider_email, provider.provider_phone)"
                             onclick="M.toast({html: 'Actualizando proveedor', classes: 'rounded'})">
                         <br>
-                        <input type="button" value="Eliminar tipo" class="waves-effect waves-light btn red row" 
+                        <input type="button" value="Eliminar proveedor" class="waves-effect waves-light btn red row" 
                             (click)="deleteProvider(provider.id)"
                             onclick="M.toast({html: 'Eliminando proveedor', classes: 'rounded'})">
                     </td>

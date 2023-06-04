@@ -1,0 +1,10 @@
+.container {
+    height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .priorityContainer {
+    flex: 1;
+    overflow: auto;
+  }

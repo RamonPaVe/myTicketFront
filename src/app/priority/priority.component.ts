@@ -3,6 +3,7 @@ import { Priority } from "../models/priority.model";
 import { map } from "rxjs/internal/operators/map";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from "../services/httpClientService.service";
+import * as M from 'materialize-css';
 
 @Component({
   selector: 'app-priority',
@@ -69,7 +70,7 @@ export class PriorityComponent implements OnInit{
             .pipe(map(data => {
                 this.listPriorities=data;
                 console.log("Prioridades: ",this.listPriorities);
-                
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Prioridades obtenidas.');},
@@ -86,7 +87,7 @@ export class PriorityComponent implements OnInit{
             .pipe(map(data => {
                 this.listLevels=data;
                 console.log("Niveles: ",this.listLevels);
-                this.changeDetector.detectChanges();
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Niveles obtenidos.');},
@@ -107,6 +108,7 @@ export class PriorityComponent implements OnInit{
                 this.nuevoNivel=data;
                 this.enablePriorityInput=false;
                 console.log("Level: ",level,' ',this.nuevoNivel);
+                setTimeout(() => M.AutoInit(), 10);
             }))
             .subscribe({
                 next: function(){console.log('Nivel obtenido.');},

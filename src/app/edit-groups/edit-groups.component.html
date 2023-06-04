@@ -1,0 +1,39 @@
+<div class="container">
+    <h3 class="center">{{titulo}}</h3>
+
+    <div class="input-field col s2" >
+        <select [(ngModel)]="selectedGroup" name="selectedGroup" (change)="getUsersGroup(selectedGroup)" >
+            <option value="-1" disabled selected>Elige un grupo para añadir/eliminar usuarios</option>
+            <option *ngFor="let group of listGroups" [value]="group.id">{{group.group_name}}</option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="input-field col s6" >
+            <select [(ngModel)]="selectedUser" name="selectedUser" [disabled]="enableUser">
+                <option value="-1" disabled selected>Elige un usuario para añadir al grupo </option>
+                <option *ngFor="let user of listUsers" [value]="user.id">{{user.surname}}, {{user.username}}</option>
+            </select>
+        </div>
+        <div class="col s6" >
+            <button class="btn" [disabled]="enableUser" (click)="addUser(selectedGroup,selectedUser)"><i class="material-icons center">group_add</i></button>
+        </div>
+    </div>
+
+    <div *ngIf="editGroup.users.length>0">    
+        <div class="row">
+            <h3>Usuarios en {{editGroup.group_name}}:</h3>
+            <tr *ngFor="let user of editGroup.users;let i=index;"> 
+                <td>
+                    {{user.surname}}, {{user.username}}    
+                </td>
+                <td>
+                    <button id="userClicked_{{user.id}}" class="btn red" [disabled]="enableUser" (click)="deleteUser(user.id)"><i class="material-icons center ">group_remove</i></button>
+                </td>
+            </tr>
+
+
+        </div>
+    </div>
+
+
+</div>

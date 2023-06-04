@@ -2,9 +2,9 @@
     <h3 class="center">{{titulo}}</h3>
         
     <div class="input-field col s2" >
-        <select class="browser-default" [(ngModel)]="selectedCategory" name="selectedCategory" (change)="getCategory(selectedCategory)" >
+        <select [(ngModel)]="selectedCategory" name="selectedCategory" (change)="getCategory(selectedCategory)" >
             <option value="-1" disabled selected>Elige una categoria para crear/editar subcategorias</option>
-            <option *ngFor="let category of listCategories" [value]="category.id">{{category.id}}-{{category.category_name}}</option>
+            <option *ngFor="let category of listCategories" [value]="category.id">{{category.category_name}}</option>
         </select>
     </div>
     <br>
@@ -14,14 +14,17 @@
     </div>
     <button class="btn" (click)="addSubcategory()" onclick="M.toast({html: 'Guardando subcategoria', classes: 'rounded'})">Agregar Subcategoría</button>
     <br>
-    <div *ngIf="nuevaCategoria.subcategory.length > 0" class="centrar">
-        <h3>Subcategorías:</h3>
-            <div class="form-group row" *ngFor="let subcategoria of nuevaCategoria.subcategory;let i=index;"> 
-                <input class="col s6" type="text" id="subcategoryName_{{i}}" [(ngModel)]="subcategoria.subcategory_name" name="subcategoria.subcategory_name">
 
-                    <a class="waves-effect waves-light btn" (click)="updateSubcategory(subcategoria.id, subcategoria.subcategory_name)"><i class="material-icons center">edit</i></a>
-                    <a class="waves-effect waves-light btn red" (click)="deleteSubcategory(subcategoria.id)" 
-                        onclick="M.toast({html: 'Subcategoria eliminada', classes: 'rounded'})"><i class="material-icons center">delete</i></a>
-            </div>
+    <div class="subcategoryContainer">
+        <div *ngIf="nuevaCategoria.subcategory.length > 0" class="centrar">
+            <h3>Subcategorías:</h3>
+                <div class="form-group row" *ngFor="let subcategoria of nuevaCategoria.subcategory;let i=index;"> 
+                    <input class="col s6" type="text" id="subcategoryName_{{i}}" [(ngModel)]="subcategoria.subcategory_name" name="subcategoria.subcategory_name">
+
+                        <a class="waves-effect waves-light btn" (click)="updateSubcategory(subcategoria.id, subcategoria.subcategory_name)"><i class="material-icons center">edit</i></a>
+                        <a class="waves-effect waves-light btn red" (click)="deleteSubcategory(subcategoria.id)" 
+                            onclick="M.toast({html: 'Subcategoria eliminada', classes: 'rounded'})"><i class="material-icons center">delete</i></a>
+                </div>
+        </div>
     </div>
 </div>  
