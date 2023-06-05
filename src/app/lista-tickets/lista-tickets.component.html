@@ -4,6 +4,7 @@
             <th>ID</th>
             <th>Ticket tercero</th>
             <th>Estado</th>
+            <th></th>
             <th>Usuario afectado</th>
             <th>Asunto</th>
             <th>Tipo</th>
@@ -23,6 +24,7 @@
             <td id="ticket_{{ticket.id}}">{{ticket.id}}</td>
             <td>{{ticket.external_ticket}}</td>
             <td>{{ticket.id_state.state_name}}</td>
+            <td><span *ngIf="ticket.notes.length>0"><i class="material-icons center" style="font-size: 18px;">speaker_notes</i></span></td>
             <td>{{ticket.affected_user.surname}}, {{ticket.affected_user.username}}</td>
             <td>{{ticket.summary}}</td>
             <td>{{ticket.id_ticketType.typeName}}</td>

@@ -36,25 +36,16 @@ table{
 form{
     padding-top: 10px !important;
 }
-.container{
-    padding-top: 60px;;
-}
+/* .container{
+    padding-top: 60px;
+} */
 
-.option_buttons{
-    margin-right: 180px;
-    margin-top: 10px;
-    float: right;
-}
+
 
 .btn-small{
     margin: 10px;
 }
 
-.idTicket{
-    position: relative;
-    z-index: 11;
-    padding-right: 250px;
-}
 /* quitar espacio en blanco entre row's */
 .row{
     margin-bottom: 0 !important;

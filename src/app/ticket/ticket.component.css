@@ -5,10 +5,32 @@
     position: relative;
 }
 
-.ticket-container{
-    z-index: 100;
-}
-
 .btn-ticket{
     top: -65px;
+    position: relative;
+}
+
+.container {
+    z-index: 100;
+    height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    max-width: 100%;
+  }
+  
+  .ticketContainer {
+    flex: 1;
+    overflow: auto;
+  }
+
+  .option_buttons{
+    position: absolute;
+    right: 180px;
+    margin-top: 10px;
+}
+
+.idTicket{
+    position: relative;
+    z-index: 11;
 }

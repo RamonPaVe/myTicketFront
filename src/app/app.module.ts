@@ -22,6 +22,7 @@ import { IonicModule } from '@ionic/angular';
 import { ListaTicketsComponent } from './lista-tickets/lista-tickets.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { EditGroupsComponent } from './edit-groups/edit-groups.component';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
  // {path:"", component: AppComponent},
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
   {path:"provider/:id", component:ProviderComponent},
   {path:"editGroups/:id", component:EditGroupsComponent},
   {path:"editGroups", component:EditGroupsComponent},
+  {path:"login", component:LoginComponent},
   {path:"", component:ListaTicketsComponent},
 ];
 
@@ -64,7 +66,10 @@ const appRoutes: Routes = [
     PriorityComponent, 
     LevelComponent, 
     TicketTypeComponent, 
-    ProviderComponent, ListaTicketsComponent, EditGroupsComponent
+    ProviderComponent,
+    ListaTicketsComponent,
+    EditGroupsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

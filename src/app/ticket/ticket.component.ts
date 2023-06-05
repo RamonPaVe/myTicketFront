@@ -7,6 +7,7 @@ import * as M from 'materialize-css';
 import 'jquery';
 import * as $ from 'jquery';
 import { Ticket } from "../models/ticket.model";
+import { Notes } from "../models/notes.model";
 
 interface UserList {
     id: number;
@@ -94,11 +95,12 @@ export class TicketComponent implements OnInit{
         affectedUser:string="";
         id:number;
 
+        hideNote=true;
+        newNote:string="";
+
 
 
     ngOnInit() {
-        
-
         M.updateTextFields(); 
         this.apellidoControl.valueChanges.subscribe(value => {
             if (value && value.length >= 3) {
@@ -440,12 +442,6 @@ export class TicketComponent implements OnInit{
                 error: function(err){console.log('Ocurrio un error: ', err);},
                 complete: function(){}
             });
-
-
-
-
-
-
   }
 
   selecciona(){
@@ -505,14 +501,60 @@ export class TicketComponent implements OnInit{
                 error: function(err){console.log('Ocurrio un error: ', err);},
                 complete: function(){}
             });
+        }
+  }
+
+  deleteTicket(id:number){
+    if (this.id>0){
+        this.apiService.deleteFromTable('tickets',id).pipe(map(data => {
+            this.routeToTicket();
+        }))
+        .subscribe({
+            next: function(){console.log('Ticket eliminado.');},
+            error: function(err){console.log('Ocurrio un error: ', err);},
+            complete: function(){}
+        });
+    }
+  }
+
+    changeStateNote(){
+        if (this.id>0){
+            this.hideNote=!this.hideNote;
+        }
+    }
+
+    saveNewNote(){
+        if (this.newNote!=""){
+            let note= new Notes(this.newNote,new Date(), new Date(),'/api/users/'+this.creatorUserId,'/api/tickets/'+this.id.toString())
+            console.log("",note);
+            this.apiService.postInTable('notes',note).pipe(map(data => {
+                this.newNote="";
+                this.changeStateNote();
+                this.searchTicket(this.id.toString())
+            }))
+            .subscribe({
+                next: function(){console.log('Nueva nota guardada.');},
+                error: function(err){console.log('Ocurrio un error: ', err);},
+                complete: function(){}
+            });
+
+
+
+
+
 
 
         }
-  
-  }
+    }
 
-  // send the ID of Category to Subcategory
-  routeToTicket() {
+
+
+
+
+  
+
+
+    routeToTicket() {
     this.router.navigate(['/']);
 }
 }

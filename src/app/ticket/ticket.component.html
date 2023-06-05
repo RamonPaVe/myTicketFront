@@ -1,15 +1,15 @@
-<div class="row ticket-container">
+<div class="row container">
   <div class="option_buttons">
     <a class="idTicket btn disabled btn-ticket">Solicitud: {{ticketSelected}}</a>
-    <a class="btn btn-ticket" (click)="save(id)"><i class="material-icons right">save</i>Guardar</a>
-    <a class="btn btn-ticket"><i class="material-icons right">speaker_notes</i>Añadir notas</a>
-    <a class="btn btn-ticket"><i class="material-icons right">edit</i>Editar</a>
+    <a class="btn btn-ticket" (click)="save(id)"><i class="material-icons right">edit</i>
+        <i class="material-icons right">save</i>Guardar</a>
+    <a class="btn btn-ticket" (click)="changeStateNote()"><i class="material-icons right">speaker_notes</i>Añadir notas</a>
     <a class="btn btn-ticket amber darken-4"><i class="material-icons right">content_copy</i>Copiar</a>
     <a class="btn btn-ticket amber darken-4"><i class="material-icons right">join_full</i>Combinar</a>
-    <a class="btn btn-ticket red"><i class="material-icons right">delete</i>Borrar</a>
+    <a class="btn btn-ticket red" (click)="deleteTicket(id)"><i class="material-icons right">delete</i>Borrar</a>
     
   </div>
-    <form class="col s12 contenedorPersonalizado">
+    <form class="col s12 ticketContainer">
       <fieldset>
         <legend>Detalles del solicitante:</legend>
         <div class="row">
@@ -139,44 +139,55 @@
       </div>
 
       <div class="row">
-        <div class="col s12 m6 l4">
-          Fecha modificación:
-          <div class="input-field inline">
-            <input disabled id="modificationDate" type="datetime" class="validate" [(ngModel)]="modificationDate" name="modificationDate">
-          </div>
+        <div class="col s12 m6 l2">
+            <span>Fecha de creación: {{creationDate|date: 'dd-MM-Y HH:mm'}}</span>
         </div>
-        <div class="col s12 m6 l4">
-          Fecha de resolución:
-          <div class="input-field inline">
-            <input disabled id="resolutionDate" type="datetime" class="validate" [(ngModel)]="resolutionDate" name="resolutionDate">
-          </div>
+        <div class="col s12 m6 l3">
+            <span>Creado por: {{creatorUser}}</span>
         </div>
-        <div class="col s12 m6 l4">
-          Fecha de cierre:
-          <div class="input-field inline">
-            <input disabled id="closeDate" type="datetime" class="validate" [(ngModel)]="closeDate" name="closeDate">
-          </div>
+        <div class="col s12 m6 l2">
+            <span>Fecha modificación: {{modificationDate|date: 'dd-MM-Y HH:mm'}}</span>
+        </div>
+        <div class="col s12 m6 l2">
+            <span>Fecha de resolución: {{resolutionDate|date: 'dd-MM-Y HH:mm'}}</span>
+        </div>
+        <div class="col s12 m6 l2">
+            <span>Fecha de cierre: {{closeDate|date: 'dd-MM-Y HH:mm'}}</span>
         </div>
       </div>
-      <div class="row">
-        <div class="col s12 m6">
-          Creado por:
-          <div class="input-field inline">
-            <input disabled id="creatorUser" type="text" class="validate" [(ngModel)]="creatorUser" name="creatorUser">
-          </div>
-        </div>
-        <div class="col s12 m6">
-          Fecha de creación:
-          <div class="input-field inline">
-            <input disabled id="creationDate" type="datetime" class="validate" [(ngModel)]="creationDate" name="creationDate">
-          </div>
-        </div>
-      </div>
-      </fieldset>
-      <fieldset>
-        <legend>Notas:</legend>
+        </fieldset>
+        <fieldset>
+            <legend>Seguimientos:</legend>
+                <table id="ticketList" class="highlight">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">Creación</th>
+                            <th style="width: 60%;">Observaciones</th>
+                            <th style="width: 15%;">Usuario</th>
+                            <th style="width: 15%;">opciones</th>
+                        
+                        </tr>
+                    </thead>
+                
+                    <tbody>
+                        <tr [hidden]="hideNote">
+                            <td></td>
+                            <td><textarea class="materialize-textarea field-description" [(ngModel)]="newNote" name="newNote" ></textarea>  </td>
+                            <td></td>
+                            <td> <a class="btn" (click)="saveNewNote()"><i class="material-icons center">save</i></a></td>
 
-      </fieldset>
-    </form>
-    
+                        </tr>
+                        <tr *ngFor="let note of newUpdateTicket.notes;let i=index;">
+                            <td>{{note.creation_date|date: 'dd-MM-Y HH:mm'}}</td>
+                            <td>{{note.note}}</td>
+                            <td>{{note.id_user.surname}}, {{note.id_user.username}}</td>
+                            <td>
+                                <a class="btn" ><i class="material-icons center">edit</i></a>
+                                <a class="btn red" ><i class="material-icons center">delete</i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </fieldset>
+    </form>  
   </div>

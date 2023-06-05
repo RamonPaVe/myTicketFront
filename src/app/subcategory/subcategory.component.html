@@ -21,8 +21,8 @@
                 <div class="form-group row" *ngFor="let subcategoria of nuevaCategoria.subcategory;let i=index;"> 
                     <input class="col s6" type="text" id="subcategoryName_{{i}}" [(ngModel)]="subcategoria.subcategory_name" name="subcategoria.subcategory_name">
 
-                        <a class="waves-effect waves-light btn" (click)="updateSubcategory(subcategoria.id, subcategoria.subcategory_name)"><i class="material-icons center">edit</i></a>
-                        <a class="waves-effect waves-light btn red" (click)="deleteSubcategory(subcategoria.id)" 
+                        <a class="btn" (click)="updateSubcategory(subcategoria.id, subcategoria.subcategory_name)"><i class="material-icons center">edit</i></a>
+                        <a class="btn red" (click)="deleteSubcategory(subcategoria.id)" 
                             onclick="M.toast({html: 'Subcategoria eliminada', classes: 'rounded'})"><i class="material-icons center">delete</i></a>
                 </div>
         </div>
